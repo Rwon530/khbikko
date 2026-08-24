@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>حجز طاولة وصالات المطعم | كشري الزعيم</title>
+  <meta name="theme-color" content="#991b1b" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./css/custom.css" />
+</head>
+<body class="bg-[#fffdf9] text-zinc-900 flex flex-col min-h-screen">
+
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <a href="./index.html" class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-red-800 to-amber-600 flex items-center justify-center text-white text-2xl shadow-md">👑</div>
+          <div>
+            <span class="text-2xl font-black text-red-900">كشري الزعيم</span>
+            <span class="block text-[10px] font-bold text-amber-700 -mt-1">حجز الطاولات والمناسبات</span>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-6 text-sm font-bold text-zinc-700">
+          <a href="./index.html" class="hover:text-red-800 transition">الرئيسية</a>
+          <a href="./menu.html" class="hover:text-red-800 transition">المنيو</a>
+          <a href="./offers.html" class="hover:text-red-800 transition">العروض</a>
+          <a href="./reserve.html" class="text-red-800 border-b-2 border-red-800 pb-1">حجز طاولة</a>
+          <a href="./track.html" class="hover:text-red-800 transition">تتبع طلبك</a>
+          <a href="./contact.html" class="hover:text-red-800 transition">الفروع</a>
+        </nav>
+
+        <a href="tel:19888" class="text-xs font-bold bg-amber-500 hover:bg-amber-600 text-stone-950 px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+          <span>📞 الخط الساخن 19888</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-10 space-y-8">
+    
+    <div class="text-center max-w-2xl mx-auto space-y-2">
+      <span class="text-xs font-black bg-amber-100 text-amber-900 px-3 py-1 rounded-full">🪑 خدمة حجز الصالات</span>
+      <h1 class="text-3xl sm:text-4xl font-black text-zinc-900">احجز طاولتك في كشري الزعيم</h1>
+      <p class="text-stone-600 text-sm font-medium">نوفر لك ولعائلتك تجربة طعام استثنائية مع استقبال مميز في صالاتنا المكيفة.</p>
+    </div>
+
+    <!-- Form Container -->
+    <div class="bg-white rounded-3xl border border-stone-200 shadow-xl p-6 sm:p-10 space-y-8">
+      
+      <form id="reservation-form" onsubmit="handleReservationSubmit(event)" class="space-y-6">
+        
+        <!-- Step 1: Branch & Hall -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-black text-stone-800 border-b border-stone-100 pb-2">1. اختيار الفرع والصالة:</h3>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-stone-700 mb-1">الفرع المطلوب *</label>
+              <select id="res-branch" required class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-sm font-bold text-zinc-800 outline-none focus:ring-2 focus:ring-amber-500">
+                <!-- Injected via JS -->
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-stone-700 mb-1">نوع الجلسة / الصالة *</label>
+              <select id="res-zone" required class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-sm font-medium outline-none focus:ring-2 focus:ring-amber-500">
+                <option value="صالة عائلات مكيفة">👨‍👩‍👧‍👦 صالة عائلات مكيفة وخصوصية</option>
+                <option value="تراس خارجي">☕ تراس خارجي في الهواء الطلق</option>
+                <option value="صالة شباب وتجمعات">👥 صالة تجمعات وشباب</option>
+                <option value="ركن VIP مناسبات">⭐ ركن VIP للمناسبات والاحتفالات</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Date, Time & Guests -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-black text-stone-800 border-b border-stone-100 pb-2">2. الموعد وعدد الأفراد:</h3>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-stone-700 mb-1">تاريخ الحجز *</label>
+              <input type="date" id="res-date" required class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-amber-500" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-stone-700 mb-1">توقيت الحجز *</label>
+              <select id="res-time" required class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-amber-500">
+                <option value="01:00 ظهرًا">01:00 ظهرًا (فترة الغداء)</option>
+                <option value="02:30 ظهرًا">02:30 ظهرًا</option>
+                <option value="04:00 عصرًا">04:00 عصرًا</option>
+                <option value="06:00 مساءً">06:00 مساءً</option>
+                <option value="08:00 مساءً">08:00 مساءً (فترة العشاء)</option>
+                <option value="10:00 مساءً">10:00 مساءً</option>
+                <option value="12:00 بعد منتصف الليل">12:00 بعد منتصف الليل</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-stone-700 mb-1">عدد الضيوف / الأفراد *</label>
+              <input type="number" id="res-guests" min="1" max="50" value="4" required class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-amber-500" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Contact Info -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-black text-stone-800 border-b border-stone-100 pb-2">3. بيانات الحجز والتواصل:</h3>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-stone-700 mb-1">الاسم بالكامل *</label>
+              <input type="text" id="res-name" required placeholder="عمرو عبد العال" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-sm font-medium outline-none focus:ring-2 focus:ring-amber-500" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-stone-700 mb-1">رقم الموبايل *</label>
+              <input type="tel" id="res-phone" required placeholder="010XXXXXXXX" dir="ltr" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-sm font-bold text-right outline-none focus:ring-2 focus:ring-amber-500" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-stone-700 mb-1">مناسبة الحجز / طلبات خاصة (اختياري)</label>
+            <input type="text" id="res-occasion" placeholder="عزومة عائلية، عيد ميلاد، تجهيز طواجن ساخنة مسبقاً..." class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-xs outline-none focus:ring-2 focus:ring-amber-500" />
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="w-full bg-gradient-to-r from-red-800 via-amber-600 to-amber-500 hover:from-red-900 text-white font-black py-4 rounded-2xl shadow-lg transition transform hover:scale-[1.01] text-base">
+          تأكيد حجز الطاولة مجاناً 📋
+        </button>
+
+      </form>
+
+    </div>
+
+    <!-- Booking Confirmation Card (Hidden by default) -->
+    <div id="booking-success-card" class="hidden bg-green-50 border-2 border-green-500 rounded-3xl p-8 text-center space-y-4">
+      <div class="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center text-3xl mx-auto">✓</div>
+      <h3 class="text-2xl font-black text-green-950">تم تأكيد حجز طاولتك بنجاح!</h3>
+      <p class="text-stone-700 text-sm max-w-md mx-auto">
+        رقم الحجز المرجعي الخاص بك هو: <strong class="font-mono text-xl text-red-900 bg-white px-3 py-1 rounded-lg border border-green-300" id="confirmed-booking-id">RES-882</strong>
+      </p>
+      <div class="text-xs text-stone-600">
+        تم إرسال تفاصيل الحجز للفرع وتم حجز الطاولة لك. نسعد باستقبالكم في الموعد المحدد!
+      </div>
+      <div class="pt-2 flex justify-center gap-3">
+        <a href="./menu.html" class="bg-amber-600 text-white text-xs font-bold px-5 py-2.5 rounded-xl">تصفح المنيو المسبق 🍲</a>
+        <a href="./index.html" class="bg-stone-900 text-white text-xs font-bold px-5 py-2.5 rounded-xl">الرئيسية 🏠</a>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="./js/data.js"></script>
+  <script src="./js/audio.js"></script>
+  <script src="./js/receipt.js"></script>
+  <script src="./js/store.js"></script>
+  <script src="./js/main.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Set default date to today
+      const dateInput = document.getElementById("res-date");
+      if (dateInput) {
+        const today = new Date().toISOString().split("T")[0];
+        dateInput.value = today;
+        dateInput.min = today;
+      }
+
+      // Populate branches
+      const branchSelect = document.getElementById("res-branch");
+      if (branchSelect && window.zaeemStore) {
+        const branches = window.zaeemStore.getBranches();
+        branchSelect.innerHTML = branches.map(b => `
+          <option value="${b.id}">${b.name}</option>
+        `).join("");
+      }
+    });
+
+    function handleReservationSubmit(e) {
+      e.preventDefault();
+
+      const branchId = document.getElementById("res-branch").value;
+      const branch = window.zaeemStore.getBranchById(branchId);
+      const zone = document.getElementById("res-zone").value;
+      const date = document.getElementById("res-date").value;
+      const time = document.getElementById("res-time").value;
+      const guests = document.getElementById("res-guests").value;
+      const name = document.getElementById("res-name").value.trim();
+      const phone = document.getElementById("res-phone").value.trim();
+      const occasion = document.getElementById("res-occasion").value.trim();
+
+      const res = window.zaeemStore.addReservation({
+        customerName: name,
+        phone: phone,
+        branchId: branch.id,
+        branchName: branch.name,
+        date: date,
+        time: time,
+        guests: guests,
+        zoneType: zone,
+        occasion: occasion
+      });
+
+      document.getElementById("reservation-form").classList.add("hidden");
+      document.getElementById("booking-success-card").classList.remove("hidden");
+      document.getElementById("confirmed-booking-id").textContent = res.id;
+
+      showToast(`تم تأكيد الحجز بنجاح برقم #${res.id} 🎉`, "success");
+    }
+  </script>
+</body>
+</html>

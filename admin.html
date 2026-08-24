@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة تحكم كشري الزعيم | Admin Dashboard</title>
+  <meta name="theme-color" content="#991b1b" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN for visual analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="./css/custom.css" />
+</head>
+<body class="bg-stone-100 text-zinc-900 flex h-screen overflow-hidden">
+
+  <!-- ================= SIDEBAR NAVIGATION ================= -->
+  <aside id="admin-sidebar" class="w-64 bg-stone-950 text-stone-300 flex flex-col justify-between border-l border-stone-800 transition-all duration-300 z-40">
+    
+    <!-- Sidebar Header -->
+    <div>
+      <div class="p-5 border-b border-stone-800 flex items-center justify-between">
+        <a href="./index.html" class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-700 to-amber-500 flex items-center justify-center text-white text-xl shadow">
+            👑
+          </div>
+          <div>
+            <h1 class="font-black text-white text-base">كشري الزعيم</h1>
+            <span class="text-[10px] text-amber-400 font-bold block">لوحة التحكم الإدارية</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- User Profile Badge -->
+      <div class="p-4 bg-stone-900/60 border-b border-stone-800/80 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-xs font-black" id="sidebar-user-avatar">
+            م
+          </div>
+          <div>
+            <div class="text-xs font-black text-white truncate max-w-[120px]" id="sidebar-user-name">محمود الزعيم</div>
+            <div class="text-[10px] text-amber-400 font-bold" id="sidebar-user-role">المدير العام (Admin)</div>
+          </div>
+        </div>
+        <button onclick="toggleAudioMute()" id="sound-toggle-btn" class="p-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-amber-400 text-xs transition" title="كتم/تفعيل صوت التنبيهات">
+          🔔
+        </button>
+      </div>
+
+      <!-- Navigation Tabs List -->
+      <nav class="p-3 space-y-1 text-xs font-bold" id="sidebar-nav">
+        <button onclick="switchTab('orders')" class="nav-tab-btn active w-full flex items-center justify-between p-3 rounded-xl transition bg-red-800 text-white shadow">
+          <div class="flex items-center gap-2.5">
+            <span>📦</span>
+            <span>إدارة الطلبات الحية</span>
+          </div>
+          <span id="live-orders-badge" class="bg-amber-400 text-red-950 font-black px-2 py-0.5 rounded-full text-[10px]">0</span>
+        </button>
+
+        <button onclick="switchTab('menu')" class="nav-tab-btn w-full flex items-center gap-2.5 p-3 rounded-xl hover:bg-stone-900 text-stone-300 transition">
+          <span>🍲</span>
+          <span>إدارة المنيو والمخزون</span>
+        </button>
+
+        <button onclick="switchTab('analytics')" class="nav-tab-btn w-full flex items-center gap-2.5 p-3 rounded-xl hover:bg-stone-900 text-stone-300 transition">
+          <span>📊</span>
+          <span>التقارير والإحصائيات</span>
+        </button>
+
+        <button onclick="switchTab('customers')" class="nav-tab-btn w-full flex items-center gap-2.5 p-3 rounded-xl hover:bg-stone-900 text-stone-300 transition">
+          <span>👥</span>
+          <span>العملاء ونقاط الولاء</span>
+        </button>
+
+        <button onclick="switchTab('branches')" class="nav-tab-btn w-full flex items-center gap-2.5 p-3 rounded-xl hover:bg-stone-900 text-stone-300 transition">
+          <span>📍</span>
+          <span>إدارة الفروع ومناطق التوصيل</span>
+        </button>
+
+        <button onclick="switchTab('reservations')" class="nav-tab-btn w-full flex items-center gap-2.5 p-3 rounded-xl hover:bg-stone-900 text-stone-300 transition">
+          <span>🪑</span>
+          <span>حجوزات الطاولات</span>
+        </button>
+
+        <button onclick="switchTab('applications')" class="nav-tab-btn w-full flex items-center gap-2.5 p-3 rounded-xl hover:bg-stone-900 text-stone-300 transition">
+          <span>💼</span>
+          <span>طلبات التوظيف</span>
+        </button>
+
+        <button onclick="switchTab('staff')" class="nav-tab-btn w-full flex items-center gap-2.5 p-3 rounded-xl hover:bg-stone-900 text-stone-300 transition">
+          <span>👨‍🍳</span>
+          <span>الموظفين والصلاحيات</span>
+        </button>
+
+        <button onclick="switchTab('settings')" class="nav-tab-btn w-full flex items-center gap-2.5 p-3 rounded-xl hover:bg-stone-900 text-stone-300 transition">
+          <span>⚙️</span>
+          <span>إعدادات النظام والمطعم</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Sidebar Footer & Switcher -->
+    <div class="p-4 border-t border-stone-800 space-y-2">
+      <!-- Quick Demo Role Switcher -->
+      <div class="bg-stone-900 p-2 rounded-xl border border-stone-800">
+        <div class="text-[10px] text-stone-400 font-bold mb-1.5">⚡ تبديل دور تجريبي سريع:</div>
+        <div class="grid grid-cols-2 gap-1 text-[10px] font-bold">
+          <button onclick="switchDemoRole('admin')" class="p-1 rounded bg-stone-800 hover:bg-amber-600 hover:text-stone-950 text-stone-300 transition">مدير عام</button>
+          <button onclick="switchDemoRole('branch_manager')" class="p-1 rounded bg-stone-800 hover:bg-amber-600 hover:text-stone-950 text-stone-300 transition">مدير فرع</button>
+          <button onclick="switchDemoRole('cashier')" class="p-1 rounded bg-stone-800 hover:bg-amber-600 hover:text-stone-950 text-stone-300 transition">كاشير/مطبخ</button>
+          <button onclick="switchDemoRole('delivery')" class="p-1 rounded bg-stone-800 hover:bg-amber-600 hover:text-stone-950 text-stone-300 transition">دليفري</button>
+        </div>
+      </div>
+
+      <a href="./index.html" class="w-full flex items-center justify-center gap-1.5 p-2 bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-white rounded-xl text-xs font-bold transition">
+        <span>🌐 زيارة الموقع الرئيسي</span>
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- ================= MAIN DASHBOARD CONTAINER ================= -->
+  <div class="flex-1 flex flex-col overflow-hidden">
+    
+    <!-- Top Dashboard Header -->
+    <header class="bg-white border-b border-stone-200 px-6 py-4 flex items-center justify-between shadow-xs">
+      <div class="flex items-center gap-4">
+        <button id="sidebar-toggle-btn" class="p-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 text-zinc-700">
+          ☰
+        </button>
+        <div>
+          <h2 class="text-xl font-black text-zinc-900" id="current-tab-title">إدارة الطلبات الحية</h2>
+          <span class="text-xs text-stone-500 font-medium" id="current-tab-subtitle">متابعة الأوردرات وتحديث الحالات وطباعة البونات</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- New Order Alert Sound Simulation Button -->
+        <button onclick="triggerSimulatedOrder()" class="bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1.5 border border-amber-300">
+          <span>🔔 طلب تجريبي جديد</span>
+        </button>
+
+        <!-- CSV Export -->
+        <button onclick="window.zaeemStore.exportOrdersToCSV()" class="bg-stone-900 hover:bg-amber-600 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow">
+          <span>تصدير إكسيل 📊</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Content (Scrollable) -->
+    <main class="flex-1 overflow-y-auto p-6 space-y-6">
+      
+      <!-- ================= TAB 1: ORDERS MANAGEMENT ================= -->
+      <section id="tab-orders" class="dashboard-tab-content space-y-6">
+        
+        <!-- Live KPI Stats Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-stone-500">مبيعات اليوم</div>
+              <div class="text-2xl font-black text-red-900 mt-1" id="kpi-today-sales">0.00 ج.م</div>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-red-100 text-red-800 flex items-center justify-center text-xl font-bold">💰</div>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-stone-500">طلبات قيد التنفيذ</div>
+              <div class="text-2xl font-black text-amber-600 mt-1" id="kpi-active-orders">0</div>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-xl font-bold">🍳</div>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-stone-500">إجمالي الطلبات المسجلة</div>
+              <div class="text-2xl font-black text-blue-900 mt-1" id="kpi-total-orders">0</div>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-800 flex items-center justify-center text-xl font-bold">📦</div>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between">
+            <div>
+              <div class="text-xs font-bold text-stone-500">متوسط قيمة الأوردر</div>
+              <div class="text-2xl font-black text-green-900 mt-1" id="kpi-avg-order">0.00 ج.م</div>
+            </div>
+            <div class="w-12 h-12 rounded-2xl bg-green-100 text-green-800 flex items-center justify-center text-xl font-bold">📈</div>
+          </div>
+        </div>
+
+        <!-- Orders Filter and Search Bar -->
+        <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-2">
+            <input type="text" id="orders-search-input" oninput="renderAdminOrders()" placeholder="بحث برقم الطلب أو اسم أو هاتف العميل..." class="p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs w-64 outline-none focus:ring-2 focus:ring-amber-500" />
+            
+            <select id="orders-branch-filter" onchange="renderAdminOrders()" class="p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold outline-none">
+              <option value="all">كل الفروع 📍</option>
+            </select>
+
+            <select id="orders-status-filter" onchange="renderAdminOrders()" class="p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold outline-none">
+              <option value="all">كل الحالات 🌟</option>
+              <option value="received">تم الاستلام</option>
+              <option value="preparing">قيد التحضير</option>
+              <option value="delivering">مع المندوب</option>
+              <option value="delivered">تم التسليم</option>
+              <option value="cancelled">ملغي</option>
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2 text-xs font-bold">
+            <span class="text-stone-500">عرض:</span>
+            <button onclick="setOrdersViewMode('cards')" id="view-cards-btn" class="p-2 rounded-lg bg-red-800 text-white">بطاقات</button>
+            <button onclick="setOrdersViewMode('table')" id="view-table-btn" class="p-2 rounded-lg bg-stone-100 text-stone-700">جدول</button>
+          </div>
+        </div>
+
+        <!-- Orders Container (Cards / Table) -->
+        <div id="admin-orders-container" class="space-y-4">
+          <!-- Injected via JS -->
+        </div>
+
+      </section>
+
+      <!-- ================= TAB 2: MENU & INVENTORY ================= -->
+      <section id="tab-menu" class="dashboard-tab-content hidden space-y-6">
+        <div class="flex items-center justify-between bg-white p-4 rounded-2xl border border-stone-200 shadow-sm">
+          <div>
+            <h3 class="font-black text-base text-zinc-900">إدارة أصناف المنيو والمخزون</h3>
+            <p class="text-xs text-stone-500">إضافة وتعديل الأطباق والأسعار وتفعيل/إيقاف الأصناف فورياً</p>
+          </div>
+          <button onclick="openAddDishModal()" class="bg-red-800 hover:bg-red-900 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl transition flex items-center gap-1 shadow">
+            <span>+ إضافة صنف جديد</span>
+          </button>
+        </div>
+
+        <div id="admin-menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Injected via JS -->
+        </div>
+      </section>
+
+      <!-- ================= TAB 3: ANALYTICS & CHARTS ================= -->
+      <section id="tab-analytics" class="dashboard-tab-content hidden space-y-6">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Sales Trend Chart -->
+          <div class="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="font-black text-base text-zinc-900">📈 منحنى المبيعات الأسبوعية (ج.م)</h3>
+              <span class="text-xs font-bold text-green-700 bg-green-50 px-2 py-0.5 rounded">+18.5% نمو</span>
+            </div>
+            <div class="h-64">
+              <canvas id="salesChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Top Selling Dishes Chart -->
+          <div class="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="font-black text-base text-zinc-900">🍲 أكثر الأطباق طلباً ومبيعاً</h3>
+              <span class="text-xs font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">إجمالي الطلبات</span>
+            </div>
+            <div class="h-64">
+              <canvas id="topDishesChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Branch Comparison Table -->
+        <div class="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm space-y-4">
+          <h3 class="font-black text-base text-zinc-900">مقارنة أداء الفروع لشهر أغسطس 2026:</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-right">
+              <thead class="bg-stone-50 border-b border-stone-200 text-stone-700 font-bold">
+                <tr>
+                  <th class="p-3">الفرع</th>
+                  <th class="p-3">عدد الطلبات</th>
+                  <th class="p-3">إجمالي المبيعات</th>
+                  <th class="p-3">متوسط وقت التوصيل</th>
+                  <th class="p-3">التقييم العام</th>
+                  <th class="p-3">الحالة</th>
+                </tr>
+              </thead>
+              <tbody id="branch-performance-rows" class="divide-y divide-stone-100">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= TAB 4: CUSTOMERS & LOYALTY ================= -->
+      <section id="tab-customers" class="dashboard-tab-content hidden space-y-6">
+        
+        <!-- WhatsApp Campaign Broadcast Card -->
+        <div class="bg-gradient-to-r from-emerald-900 via-stone-900 to-amber-900 text-white p-6 rounded-3xl border-2 border-emerald-500 shadow-lg space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <span class="text-xs bg-emerald-500 text-stone-950 font-black px-2.5 py-0.5 rounded">📲 تسويق وواتساب</span>
+              <h3 class="text-lg font-black text-white mt-1">إرسال حملة عروض ترويجية للعملاء عبر واتساب</h3>
+            </div>
+            <button onclick="broadcastPromoCampaign()" class="bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-black text-xs px-4 py-2.5 rounded-xl transition shadow">
+              إنشاء رابط إرسال العرض 💬
+            </button>
+          </div>
+          <p class="text-xs text-stone-300 max-w-2xl leading-relaxed">
+            يمكنك إرسال كود الخصم الأسبوعي ورصيد نقاط الولاء للعملاء بنقرة واحدة لزيادة معدل تكرار الطلبات.
+          </p>
+        </div>
+
+        <!-- Customers Directory Table -->
+        <div class="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-stone-100 pb-3">
+            <h3 class="font-black text-base text-zinc-900">سجل العملاء وبرنامج نقاط المكافآت</h3>
+            <span class="text-xs font-bold text-stone-500" id="customers-count-label">5 عملاء مسجلين</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-right">
+              <thead class="bg-stone-50 border-b border-stone-200 text-stone-700 font-bold">
+                <tr>
+                  <th class="p-3">العميل</th>
+                  <th class="p-3">رقم الهاتف</th>
+                  <th class="p-3">عدد الطلبات</th>
+                  <th class="p-3">إجمالي الإنفاق</th>
+                  <th class="p-3">نقاط الولاء</th>
+                  <th class="p-3">شريحة العضوية</th>
+                  <th class="p-3">إجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="customers-table-body" class="divide-y divide-stone-100">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= TAB 5: BRANCHES & ZONES ================= -->
+      <section id="tab-branches" class="dashboard-tab-content hidden space-y-6">
+        <div class="flex items-center justify-between bg-white p-4 rounded-2xl border border-stone-200 shadow-sm">
+          <div>
+            <h3 class="font-black text-base text-zinc-900">إدارة الفروع ومناطق التوصيل</h3>
+            <p class="text-xs text-stone-500">تعديل الفروع وأرقام الهواتف ومواعيد العمل وأسعار التوصيل</p>
+          </div>
+          <button onclick="openAddBranchModal()" class="bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl transition shadow">
+            + إضافة فرع جديد
+          </button>
+        </div>
+
+        <div id="admin-branches-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Injected via JS -->
+        </div>
+      </section>
+
+      <!-- ================= TAB 6: RESERVATIONS ================= -->
+      <section id="tab-reservations" class="dashboard-tab-content hidden space-y-6">
+        <div class="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm space-y-4">
+          <h3 class="font-black text-base text-zinc-900 border-b border-stone-100 pb-3">جدول حجوزات الطاولات في الصالات</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-right">
+              <thead class="bg-stone-50 border-b border-stone-200 text-stone-700 font-bold">
+                <tr>
+                  <th class="p-3">رقم الحجز</th>
+                  <th class="p-3">اسم العميل</th>
+                  <th class="p-3">الهاتف</th>
+                  <th class="p-3">الفرع</th>
+                  <th class="p-3">التاريخ والوقت</th>
+                  <th class="p-3">الأفراد</th>
+                  <th class="p-3">الصالة</th>
+                  <th class="p-3">المناسبة</th>
+                  <th class="p-3">الحالة</th>
+                  <th class="p-3">إجراء</th>
+                </tr>
+              </thead>
+              <tbody id="reservations-table-body" class="divide-y divide-stone-100">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 7: JOB APPLICATIONS ================= -->
+      <section id="tab-applications" class="dashboard-tab-content hidden space-y-6">
+        <div class="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm space-y-4">
+          <h3 class="font-black text-base text-zinc-900 border-b border-stone-100 pb-3">طلبات التوظيف والسير الذاتية المستلمة</h3>
+          <div id="admin-applications-list" class="space-y-3">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 8: STAFF & ROLES ================= -->
+      <section id="tab-staff" class="dashboard-tab-content hidden space-y-6">
+        <div class="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-stone-100 pb-3">
+            <h3 class="font-black text-base text-zinc-900">فريق العمل والموظفين والصلاحيات</h3>
+            <span class="text-xs bg-stone-100 text-stone-700 px-3 py-1 rounded-lg font-bold">أدوار متعددة RBAC</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="staff-cards-grid">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 9: GENERAL SETTINGS ================= -->
+      <section id="tab-settings" class="dashboard-tab-content hidden space-y-6">
+        <div class="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm space-y-6 max-w-3xl">
+          <h3 class="font-black text-base text-zinc-900 border-b border-stone-100 pb-3">إعدادات المطعم العامة والنظام</h3>
+          
+          <form id="settings-form" onsubmit="saveGeneralSettings(event)" class="space-y-4 text-xs">
+            <div>
+              <label class="block font-bold text-stone-700 mb-1">اسم المطعم</label>
+              <input type="text" id="set-name" class="w-full p-2.5 bg-stone-50 border rounded-xl" />
+            </div>
+
+            <div>
+              <label class="block font-bold text-stone-700 mb-1">شعار المطعم (Slogan)</label>
+              <input type="text" id="set-slogan" class="w-full p-2.5 bg-stone-50 border rounded-xl" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block font-bold text-stone-700 mb-1">الخط الساخن</label>
+                <input type="text" id="set-hotline" dir="ltr" class="w-full p-2.5 bg-stone-50 border rounded-xl font-bold text-right" />
+              </div>
+              <div>
+                <label class="block font-bold text-stone-700 mb-1">رقم الواتساب</label>
+                <input type="text" id="set-whatsapp" dir="ltr" class="w-full p-2.5 bg-stone-50 border rounded-xl font-bold text-right" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-bold text-stone-700 mb-1">شريط الإعلان العلوي (Banner)</label>
+              <input type="text" id="set-announcement" class="w-full p-2.5 bg-stone-50 border rounded-xl" />
+            </div>
+
+            <button type="submit" class="bg-red-800 hover:bg-red-900 text-white font-black py-3 px-6 rounded-xl shadow transition text-sm">
+              حفظ وتطبيق الإعدادات 💾
+            </button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- ================= THERMAL RECEIPT PRINT MODAL ================= -->
+  <div id="print-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between no-print border-b pb-2">
+        <h4 class="font-black text-sm text-zinc-900">معاينة بون الكاشير (80mm)</h4>
+        <button onclick="document.getElementById('print-modal').classList.add('hidden')" class="text-stone-400 font-bold p-1">✕</button>
+      </div>
+
+      <div id="print-modal-content" class="overflow-y-auto flex-1">
+        <!-- Injected via ReceiptPrinter -->
+      </div>
+
+      <div class="no-print pt-2 flex gap-2">
+        <button onclick="window.print()" class="flex-1 bg-red-800 hover:bg-red-900 text-white text-xs font-black py-2.5 rounded-xl shadow">
+          طباعة البون الآن 🖨️
+        </button>
+        <button onclick="document.getElementById('print-modal').classList.add('hidden')" class="bg-stone-100 text-stone-700 text-xs font-bold px-4 py-2.5 rounded-xl">
+          إغلاق
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ADD / EDIT DISH MODAL ================= -->
+  <div id="dish-form-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-stone-200 space-y-4 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between border-b pb-2">
+        <h3 class="font-black text-base text-zinc-900" id="dish-modal-title">إضافة صنف جديد للمنيو</h3>
+        <button onclick="closeDishModal()" class="text-stone-400 font-bold p-1">✕</button>
+      </div>
+
+      <form id="dish-editor-form" onsubmit="handleDishSave(event)" class="overflow-y-auto flex-1 space-y-3 text-xs pr-1">
+        <input type="hidden" id="dish-edit-id" />
+        
+        <div>
+          <label class="block font-bold text-stone-700 mb-1">اسم الصنف *</label>
+          <input type="text" id="dish-edit-name" required class="w-full p-2.5 bg-stone-50 border rounded-xl" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-stone-700 mb-1">التصنيف *</label>
+            <select id="dish-edit-category" required class="w-full p-2.5 bg-stone-50 border rounded-xl font-bold">
+              <option value="koshary">كشري الزعيم</option>
+              <option value="casseroles">طواجن فرن</option>
+              <option value="combos">وجبات توفير</option>
+              <option value="extras">إضافات ودقات</option>
+              <option value="desserts">حلويات شرقية</option>
+              <option value="drinks">مشروبات</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-stone-700 mb-1">السعر الأساسي (ج.م) *</label>
+            <input type="number" id="dish-edit-price" required class="w-full p-2.5 bg-stone-50 border rounded-xl font-bold" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-stone-700 mb-1">الوصف التفصيلي</label>
+          <textarea id="dish-edit-desc" rows="2" class="w-full p-2.5 bg-stone-50 border rounded-xl"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-bold text-stone-700 mb-1">رابط الصورة (URL)</label>
+          <input type="text" id="dish-edit-image" placeholder="https://..." class="w-full p-2.5 bg-stone-50 border rounded-xl" />
+        </div>
+
+        <div class="flex items-center gap-4 pt-2">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="dish-edit-stock" checked class="w-4 h-4 text-red-600 rounded" />
+            <span class="font-bold">متوفر في المخزون</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="dish-edit-featured" class="w-4 h-4 text-amber-600 rounded" />
+            <span class="font-bold">طبق مميز في الرئيسية</span>
+          </label>
+        </div>
+
+        <div class="pt-3 border-t flex gap-2">
+          <button type="submit" class="flex-1 bg-red-800 hover:bg-red-900 text-white font-black py-2.5 rounded-xl shadow">
+            حفظ الصنف 💾
+          </button>
+          <button type="button" onclick="closeDishModal()" class="bg-stone-100 text-stone-700 font-bold px-4 py-2.5 rounded-xl">
+            إلغاء
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./js/data.js"></script>
+  <script src="./js/audio.js"></script>
+  <script src="./js/receipt.js"></script>
+  <script src="./js/store.js"></script>
+  <script src="./js/main.js"></script>
+
+  <script>
+    let currentOrdersView = "cards";
+    let salesChartInstance = null;
+    let topDishesChartInstance = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initAdminUser();
+      renderAdminOrders();
+      renderAdminMenu();
+      renderAdminCustomers();
+      renderAdminBranches();
+      renderAdminReservations();
+      renderAdminApplications();
+      renderAdminStaff();
+      populateBranchFilter();
+      initAnalyticsCharts();
+      loadSettingsToForm();
+
+      // Subscribe to real-time events
+      window.zaeemStore.subscribe((key) => {
+        if (key === "zaeem_orders") {
+          renderAdminOrders();
+          updateKPIs();
+        }
+        if (key === "zaeem_menu") renderAdminMenu();
+        if (key === "zaeem_reservations") renderAdminReservations();
+        if (key === "zaeem_customers") renderAdminCustomers();
+      });
+    });
+
+    function initAdminUser() {
+      const user = window.zaeemStore.getCurrentUser();
+      if (user) {
+        document.getElementById("sidebar-user-name").textContent = user.name;
+        document.getElementById("sidebar-user-role").textContent = user.roleTitle;
+        document.getElementById("sidebar-user-avatar").textContent = user.name.charAt(0);
+      }
+    }
+
+    function switchDemoRole(role) {
+      const user = window.zaeemStore.demoLogin(role);
+      initAdminUser();
+      showToast(`تم تبديل الدور إلى: ${user.roleTitle} 👑`, "info");
+    }
+
+    function toggleAudioMute() {
+      const isMuted = window.zaeemSound.toggleMute();
+      const btn = document.getElementById("sound-toggle-btn");
+      btn.textContent = isMuted ? "🔕" : "🔔";
+      showToast(isMuted ? "تم كتم التنبيهات الصوتية" : "تم تفعيل صوت التنبيهات 🔔", "info");
+    }
+
+    function switchTab(tabId) {
+      // Hide all tabs
+      document.querySelectorAll(".dashboard-tab-content").forEach(el => el.classList.add("hidden"));
+      
+      // Remove active from nav buttons
+      document.querySelectorAll(".nav-tab-btn").forEach(btn => {
+        btn.classList.remove("bg-red-800", "text-white", "shadow");
+        btn.classList.add("text-stone-300");
+      });
+
+      // Show selected tab
+      const target = document.getElementById(`tab-${tabId}`);
+      if (target) target.classList.remove("hidden");
+
+      // Highlight clicked button
+      const clickedBtn = event.currentTarget;
+      if (clickedBtn) {
+        clickedBtn.classList.add("bg-red-800", "text-white", "shadow");
+        clickedBtn.classList.remove("text-stone-300");
+      }
+
+      // Update titles
+      const titles = {
+        orders: "إدارة الطلبات الحية",
+        menu: "إدارة المنيو والمخزون",
+        analytics: "التقارير والإحصائيات المالية",
+        customers: "سجل العملاء ونقاط الولاء",
+        branches: "إدارة الفروع ومناطق التوصيل",
+        reservations: "حجوزات طاولات الصالات",
+        applications: "طلبات التوظيف والسير الذاتية",
+        staff: "الموظفين والصلاحيات",
+        settings: "إعدادات النظام العامة"
+      };
+
+      document.getElementById("current-tab-title").textContent = titles[tabId] || "لوحة التحكم";
+    }
+
+    // ================= ORDERS LOGIC =================
+    function populateBranchFilter() {
+      const select = document.getElementById("orders-branch-filter");
+      if (!select || !window.zaeemStore) return;
+
+      const branches = window.zaeemStore.getBranches();
+      branches.forEach(b => {
+        const opt = document.createElement("option");
+        opt.value = b.id;
+        opt.textContent = b.name;
+        select.appendChild(opt);
+      });
+    }
+
+    function setOrdersViewMode(mode) {
+      currentOrdersView = mode;
+      document.getElementById("view-cards-btn").className = mode === "cards" ? "p-2 rounded-lg bg-red-800 text-white" : "p-2 rounded-lg bg-stone-100 text-stone-700";
+      document.getElementById("view-table-btn").className = mode === "table" ? "p-2 rounded-lg bg-red-800 text-white" : "p-2 rounded-lg bg-stone-100 text-stone-700";
+      renderAdminOrders();
+    }
+
+    function renderAdminOrders() {
+      const container = document.getElementById("admin-orders-container");
+      if (!container || !window.zaeemStore) return;
+
+      const orders = window.zaeemStore.getOrders();
+      const searchQuery = document.getElementById("orders-search-input").value.trim().toLowerCase();
+      const branchFilter = document.getElementById("orders-branch-filter").value;
+      const statusFilter = document.getElementById("orders-status-filter").value;
+
+      const filtered = orders.filter(o => {
+        if (branchFilter !== "all" && o.branchId !== branchFilter) return false;
+        if (statusFilter !== "all" && o.orderStatus !== statusFilter) return false;
+        if (searchQuery) {
+          const matchId = o.id.toLowerCase().includes(searchQuery);
+          const matchName = o.customerName.toLowerCase().includes(searchQuery);
+          const matchPhone = o.customerPhone.includes(searchQuery);
+          if (!matchId && !matchName && !matchPhone) return false;
+        }
+        return true;
+      });
+
+      // Update badge
+      const activeCount = orders.filter(o => o.orderStatus !== "delivered" && o.orderStatus !== "cancelled").length;
+      document.getElementById("live-orders-badge").textContent = activeCount;
+
+      updateKPIs();
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white p-12 text-center rounded-3xl border border-stone-200 text-stone-400 space-y-2">
+            <div class="text-4xl">📦</div>
+            <div class="font-bold text-sm text-zinc-700">لا توجد طلبات مطابقة للبحث أو الفلتر الحالي</div>
+          </div>
+        `;
+        return;
+      }
+
+      if (currentOrdersView === "cards") {
+        container.innerHTML = `
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            ${filtered.map(order => renderOrderCardHTML(order)).join("")}
+          </div>
+        `;
+      } else {
+        container.innerHTML = `
+          <div class="bg-white rounded-3xl border border-stone-200 shadow-sm overflow-hidden">
+            <table class="w-full text-xs text-right">
+              <thead class="bg-stone-50 border-b border-stone-200 text-stone-700 font-bold">
+                <tr>
+                  <th class="p-3">رقم الطلب</th>
+                  <th class="p-3">العميل</th>
+                  <th class="p-3">الفرع</th>
+                  <th class="p-3">النوع</th>
+                  <th class="p-3">الإجمالي</th>
+                  <th class="p-3">الحالة</th>
+                  <th class="p-3">إجراءات سريعة</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-stone-100">
+                ${filtered.map(order => renderOrderTableRowHTML(order)).join("")}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+    }
+
+    function renderOrderCardHTML(order) {
+      const statusMap = {
+        received: { text: "تم الاستلام", class: "status-received" },
+        preparing: { text: "قيد التحضير 🍳", class: "status-preparing" },
+        delivering: { text: "مع المندوب 🛵", class: "status-delivering" },
+        delivered: { text: "تم التسليم ✅", class: "status-delivered" },
+        cancelled: { text: "ملغي ❌", class: "status-cancelled" }
+      };
+
+      const statusInfo = statusMap[order.orderStatus] || statusMap.received;
+      const isDel = order.fulfillmentType === "delivery";
+
+      return `
+        <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm hover:shadow-md transition space-y-4 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="font-mono font-black text-sm text-red-900">#${order.id}</span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${statusInfo.class}">${statusInfo.text}</span>
+              </div>
+              <span class="text-[10px] text-stone-400 font-semibold">${new Date(order.createdAt).toLocaleTimeString("ar-EG", { hour: '2-digit', minute: '2-digit' })}</span>
+            </div>
+
+            <div class="bg-stone-50 p-2.5 rounded-xl border border-stone-100 text-xs space-y-1">
+              <div class="font-bold text-zinc-900">${order.customerName}</div>
+              <div class="text-stone-500 font-mono" dir="ltr">${order.customerPhone}</div>
+              <div class="text-amber-800 font-bold text-[11px]">${order.branchName || 'الفرع الرئيسي'}</div>
+              ${isDel && order.address ? `<div class="text-[10px] text-stone-600">📍 ${order.address.area} - ${order.address.street}</div>` : '<div class="text-[10px] text-green-700 font-bold">🏪 استلام من الفرع</div>'}
+            </div>
+
+            <div class="space-y-1 text-xs">
+              <div class="text-[11px] font-bold text-stone-400">الأصناف:</div>
+              ${order.items.map(i => `
+                <div class="flex justify-between text-stone-700">
+                  <span>${i.quantity}x ${i.name} (${i.size})</span>
+                  <span class="font-bold">${i.itemTotal} ج</span>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-stone-100 space-y-3">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-stone-500">الإجمالي (${order.paymentMethod}):</span>
+              <span class="text-base font-black text-red-900">${order.total.toFixed(2)} ج.م</span>
+            </div>
+
+            <!-- Status Transition Buttons -->
+            <div class="grid grid-cols-2 gap-1.5 text-[11px] font-bold">
+              ${order.orderStatus === "received" ? `
+                <button onclick="changeStatus('${order.id}', 'preparing')" class="bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded-lg transition">تحضير في المطبخ 🍳</button>
+              ` : ''}
+              ${order.orderStatus === "preparing" ? `
+                <button onclick="changeStatus('${order.id}', 'delivering')" class="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg transition">خرج للتوصيل 🛵</button>
+              ` : ''}
+              ${order.orderStatus === "delivering" ? `
+                <button onclick="changeStatus('${order.id}', 'delivered')" class="bg-green-700 hover:bg-green-800 text-white p-2 rounded-lg transition">تم التسليم ✅</button>
+              ` : ''}
+              ${order.orderStatus === "delivered" ? `
+                <span class="col-span-2 text-center text-green-700 bg-green-50 p-1.5 rounded-lg">الطلب مكتمل بنجاح</span>
+              ` : ''}
+              
+              <button onclick="printOrderReceipt('${order.id}')" class="bg-stone-900 hover:bg-amber-600 text-white p-2 rounded-lg transition flex items-center justify-center gap-1">
+                <span>طباعة بون 🖨️</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderOrderTableRowHTML(order) {
+      return `
+        <tr class="hover:bg-stone-50 transition">
+          <td class="p-3 font-mono font-bold text-red-900">#${order.id}</td>
+          <td class="p-3">
+            <div class="font-bold">${order.customerName}</div>
+            <div class="text-[10px] text-stone-400" dir="ltr">${order.customerPhone}</div>
+          </td>
+          <td class="p-3 text-stone-600">${order.branchName || 'الفرع'}</td>
+          <td class="p-3 font-bold">${order.fulfillmentType === 'delivery' ? '🛵 توصيل' : '🏪 استلام'}</td>
+          <td class="p-3 font-black text-red-900">${order.total.toFixed(2)} ج</td>
+          <td class="p-3">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold status-${order.orderStatus}">${order.orderStatus}</span>
+          </td>
+          <td class="p-3 flex items-center gap-2">
+            <button onclick="printOrderReceipt('${order.id}')" class="bg-stone-800 text-white px-2.5 py-1 rounded text-xs">🖨️ طباعة</button>
+            <select onchange="changeStatus('${order.id}', this.value)" class="p-1 bg-stone-100 rounded text-[11px] font-bold">
+              <option value="received" ${order.orderStatus === 'received' ? 'selected' : ''}>استلام</option>
+              <option value="preparing" ${order.orderStatus === 'preparing' ? 'selected' : ''}>تحضير</option>
+              <option value="delivering" ${order.orderStatus === 'delivering' ? 'selected' : ''}>مع المندوب</option>
+              <option value="delivered" ${order.orderStatus === 'delivered' ? 'selected' : ''}>تسليم</option>
+              <option value="cancelled" ${order.orderStatus === 'cancelled' ? 'selected' : ''}>إلغاء</option>
+            </select>
+          </td>
+        </tr>
+      `;
+    }
+
+    function changeStatus(orderId, status) {
+      window.zaeemStore.updateOrderStatus(orderId, status);
+      showToast(`تم تحديث الطلب #${orderId} إلى: ${status}`, "success");
+      renderAdminOrders();
+    }
+
+    function printOrderReceipt(orderId) {
+      const order = window.zaeemStore.getOrderById(orderId);
+      if (order && window.ReceiptPrinter) {
+        window.ReceiptPrinter.print(order);
+      }
+    }
+
+    function triggerSimulatedOrder() {
+      const randomTotal = Math.floor(120 + Math.random() * 250);
+      const branches = window.zaeemStore.getBranches();
+      const mockOrder = {
+        customerName: "عميل تجريبي (" + Math.floor(10 + Math.random() * 90) + ")",
+        customerPhone: "010" + Math.floor(10000000 + Math.random() * 90000000),
+        fulfillmentType: "delivery",
+        branchId: branches[0].id,
+        branchName: branches[0].name,
+        address: { governorate: "القاهرة", area: "وسط البلد", street: "شارع قصر النيل", building: "5", floor: "2", apartment: "4" },
+        paymentMethod: "cash",
+        subtotal: randomTotal,
+        discount: 0,
+        deliveryFee: 15,
+        total: randomTotal + 15
+      };
+
+      const order = window.zaeemStore.placeOrder(mockOrder);
+      showToast(`وصل طلب جديد الآن برقم #${order.id} 🔔`, "success");
+      renderAdminOrders();
+    }
+
+    function updateKPIs() {
+      const orders = window.zaeemStore.getOrders();
+      const todayTotal = orders.reduce((sum, o) => sum + (o.total || 0), 0);
+      const activeCount = orders.filter(o => o.orderStatus !== "delivered" && o.orderStatus !== "cancelled").length;
+      const avgOrder = orders.length > 0 ? todayTotal / orders.length : 0;
+
+      document.getElementById("kpi-today-sales").textContent = todayTotal.toFixed(2) + " ج.م";
+      document.getElementById("kpi-active-orders").textContent = activeCount;
+      document.getElementById("kpi-total-orders").textContent = orders.length;
+      document.getElementById("kpi-avg-order").textContent = avgOrder.toFixed(2) + " ج.م";
+    }
+
+    // ================= MENU CRUD LOGIC =================
+    function renderAdminMenu() {
+      const grid = document.getElementById("admin-menu-grid");
+      if (!grid || !window.zaeemStore) return;
+
+      const menu = window.zaeemStore.getMenu();
+
+      grid.innerHTML = menu.map(dish => `
+        <div class="bg-white rounded-2xl overflow-hidden border border-stone-200 shadow-sm p-4 flex gap-4 items-center">
+          <img src="${dish.image}" alt="${dish.name}" class="w-20 h-20 rounded-xl object-cover border border-amber-200" />
+          <div class="flex-1 min-w-0 space-y-1">
+            <div class="flex items-center justify-between">
+              <h4 class="font-extrabold text-sm text-zinc-900 truncate">${dish.name}</h4>
+              <span class="font-black text-red-900 text-sm">${dish.price} ج</span>
+            </div>
+            <p class="text-[11px] text-stone-500 line-clamp-1">${dish.desc}</p>
+            <div class="flex items-center gap-2 pt-1">
+              <button onclick="toggleStock('${dish.id}')" class="text-[10px] font-bold px-2.5 py-1 rounded-lg transition ${dish.inStock ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                ${dish.inStock ? 'متوفر بالمخزون ✅' : 'نفذ من المخزون ❌'}
+              </button>
+              <button onclick="deleteDish('${dish.id}')" class="text-[10px] text-red-600 hover:underline">حذف</button>
+            </div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function toggleStock(id) {
+      window.zaeemStore.toggleDishStock(id);
+      showToast("تم تحديث حالة المخزون للصنف", "info");
+      renderAdminMenu();
+    }
+
+    function openAddDishModal() {
+      document.getElementById("dish-edit-id").value = "";
+      document.getElementById("dish-editor-form").reset();
+      document.getElementById("dish-modal-title").textContent = "إضافة صنف جديد للمنيو";
+      document.getElementById("dish-form-modal").classList.remove("hidden");
+    }
+
+    function closeDishModal() {
+      document.getElementById("dish-form-modal").classList.add("hidden");
+    }
+
+    function handleDishSave(e) {
+      e.preventDefault();
+      const id = document.getElementById("dish-edit-id").value;
+      const name = document.getElementById("dish-edit-name").value.trim();
+      const cat = document.getElementById("dish-edit-category").value;
+      const price = parseFloat(document.getElementById("dish-edit-price").value) || 30;
+      const desc = document.getElementById("dish-edit-desc").value.trim();
+      const image = document.getElementById("dish-edit-image").value.trim() || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80";
+      const inStock = document.getElementById("dish-edit-stock").checked;
+      const featured = document.getElementById("dish-edit-featured").checked;
+
+      window.zaeemStore.saveMenuItem({
+        id: id || undefined,
+        name,
+        categoryId: cat,
+        price,
+        desc,
+        image,
+        inStock,
+        featured,
+        sizes: [{ name: "عادي", price: price, default: true }]
+      });
+
+      closeDishModal();
+      showToast(`تم حفظ الصنف "${name}" بنجاح! 🍲`, "success");
+      renderAdminMenu();
+    }
+
+    function deleteDish(id) {
+      if (confirm("هل أنت متأكد من حذف هذا الصنف من المنيو؟")) {
+        window.zaeemStore.deleteMenuItem(id);
+        showToast("تم حذف الصنف من المنيو", "warning");
+        renderAdminMenu();
+      }
+    }
+
+    // ================= CUSTOMERS LOGIC =================
+    function renderAdminCustomers() {
+      const tbody = document.getElementById("customers-table-body");
+      if (!tbody || !window.zaeemStore) return;
+
+      const customers = window.zaeemStore.getCustomers();
+      document.getElementById("customers-count-label").textContent = `${customers.length} عملاء مسجلين`;
+
+      tbody.innerHTML = customers.map(c => `
+        <tr class="hover:bg-stone-50">
+          <td class="p-3 font-bold text-zinc-900">${c.name}</td>
+          <td class="p-3 font-mono" dir="ltr">${c.phone}</td>
+          <td class="p-3 font-bold text-amber-800">${c.ordersCount} طلبات</td>
+          <td class="p-3 font-black text-zinc-900">${c.totalSpent.toFixed(2)} ج.م</td>
+          <td class="p-3 font-black text-amber-600">${c.loyaltyPoints} نقطة</td>
+          <td class="p-3"><span class="bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-bold text-[10px]">${c.tier}</span></td>
+          <td class="p-3">
+            <a href="https://wa.me/2${c.phone}?text=${encodeURIComponent('أهلاً ' + c.name + ' من كشري الزعيم! لدينا عرض خاص لك اليوم بكود ZAEEM2026')}" target="_blank" class="bg-green-600 hover:bg-green-700 text-white text-[11px] font-bold px-2.5 py-1 rounded transition">
+              واتساب 💬
+            </a>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    function broadcastPromoCampaign() {
+      const customers = window.zaeemStore.getCustomers();
+      if (customers.length === 0) return;
+      const phone = customers[0].phone;
+      const text = encodeURIComponent("🔥 عرض خاص من كشري الزعيم: خصم 15% على جميع طلباتك اليوم بكود ZAEEM2026 | اطلب الآن: www.koshary-elzaeem.com");
+      window.open(`https://wa.me/2${phone}?text=${text}`, "_blank");
+      showToast("تم إنشاء وتجهيز رابط الحملة على واتساب! 🚀", "success");
+    }
+
+    // ================= BRANCHES LOGIC =================
+    function renderAdminBranches() {
+      const list = document.getElementById("admin-branches-list");
+      if (!list || !window.zaeemStore) return;
+
+      const branches = window.zaeemStore.getBranches();
+      list.innerHTML = branches.map(b => `
+        <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between border-b pb-2">
+            <h4 class="font-black text-base text-zinc-900">${b.name}</h4>
+            <span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded font-bold">نشط 🟢</span>
+          </div>
+          <div class="text-xs text-stone-600 space-y-1">
+            <div>📍 <strong>العنوان:</strong> ${b.address}</div>
+            <div>📞 <strong>الهاتف:</strong> <span dir="ltr">${b.phone}</span></div>
+            <div>🕒 <strong>ساعات العمل:</strong> ${b.hours}</div>
+          </div>
+          <div class="pt-2 border-t">
+            <div class="text-[11px] font-bold text-stone-400 mb-1">مناطق التوصيل والأسعار:</div>
+            <div class="space-y-1 text-xs">
+              ${(b.zones || []).map(z => `
+                <div class="flex justify-between bg-stone-50 p-1.5 rounded">
+                  <span>${z.name}</span>
+                  <span class="font-bold text-amber-800">${z.fee} ج (${z.time})</span>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    // ================= RESERVATIONS LOGIC =================
+    function renderAdminReservations() {
+      const tbody = document.getElementById("reservations-table-body");
+      if (!tbody || !window.zaeemStore) return;
+
+      const resList = window.zaeemStore.getReservations();
+      tbody.innerHTML = resList.map(r => `
+        <tr class="hover:bg-stone-50">
+          <td class="p-3 font-mono font-bold text-red-900">#${r.id}</td>
+          <td class="p-3 font-bold">${r.customerName}</td>
+          <td class="p-3 font-mono" dir="ltr">${r.phone}</td>
+          <td class="p-3 text-stone-600">${r.branchName || 'الفرع'}</td>
+          <td class="p-3 font-bold text-amber-900">${r.date} (${r.time})</td>
+          <td class="p-3 font-black">${r.guests} ضيوف</td>
+          <td class="p-3 text-[11px]">${r.zoneType}</td>
+          <td class="p-3 text-[11px] text-stone-500">${r.occasion || '-'}</td>
+          <td class="p-3"><span class="bg-green-100 text-green-800 text-[10px] px-2 py-0.5 rounded font-bold">${r.status === 'confirmed' ? 'مؤكد ✅' : r.status}</span></td>
+          <td class="p-3">
+            <button onclick="window.zaeemStore.updateReservationStatus('${r.id}', 'completed')" class="bg-stone-800 text-white text-[10px] px-2 py-1 rounded">تم الحضور</button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    // ================= APPLICATIONS LOGIC =================
+    function renderAdminApplications() {
+      const list = document.getElementById("admin-applications-list");
+      if (!list || !window.zaeemStore) return;
+
+      const apps = window.zaeemStore.getApplications();
+      if (apps.length === 0) {
+        list.innerHTML = `<div class="p-8 text-center text-stone-400 text-xs">لا توجد طلبات توظيف جديدة بعد. ستظهر هنا فور إرسالها من صفحة الوظائف.</div>`;
+        return;
+      }
+
+      list.innerHTML = apps.map(app => `
+        <div class="bg-stone-50 p-4 rounded-2xl border border-stone-200 flex items-center justify-between">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="font-black text-sm text-zinc-900">${app.fullName}</span>
+              <span class="bg-amber-100 text-amber-900 text-xs px-2 py-0.5 rounded font-bold">${app.jobTitle}</span>
+            </div>
+            <div class="text-xs text-stone-600">📞 الهاتف: <span dir="ltr" class="font-mono">${app.phone}</span> | الخبرة: <strong>${app.experienceYears}</strong></div>
+            ${app.notes ? `<div class="text-[11px] text-stone-500">ملاحظات: ${app.notes}</div>` : ''}
+          </div>
+          <a href="tel:${app.phone}" class="bg-red-800 text-white text-xs font-bold px-3 py-2 rounded-xl">اتصال بالمتقدم 📞</a>
+        </div>
+      `).join("");
+    }
+
+    // ================= STAFF LOGIC =================
+    function renderAdminStaff() {
+      const grid = document.getElementById("staff-cards-grid");
+      if (!grid || !window.zaeemStore) return;
+
+      const staff = window.zaeemStore.getStaff();
+      grid.innerHTML = staff.map(s => `
+        <div class="bg-stone-50 p-4 rounded-2xl border border-stone-200 flex items-center justify-between">
+          <div class="space-y-1">
+            <h4 class="font-black text-sm text-zinc-900">${s.name}</h4>
+            <div class="text-xs text-red-800 font-bold">${s.roleTitle}</div>
+            <div class="text-[11px] text-stone-500">الفرع: ${s.branchName} | PIN: <span class="font-mono">****</span></div>
+          </div>
+          <button onclick="switchDemoRole('${s.role}')" class="bg-stone-900 hover:bg-amber-600 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition">
+            دخول بالحساب
+          </button>
+        </div>
+      `).join("");
+    }
+
+    // ================= ANALYTICS CHARTS =================
+    function initAnalyticsCharts() {
+      // 1. Sales Trend Line Chart
+      const salesCtx = document.getElementById('salesChart');
+      if (salesCtx) {
+        if (salesChartInstance) salesChartInstance.destroy();
+        salesChartInstance = new Chart(salesCtx, {
+          type: 'line',
+          data: {
+            labels: ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة (ذروة)'],
+            datasets: [{
+              label: 'مبيعات الكشري والطواجن (ج.م)',
+              data: [14200, 15800, 16300, 17500, 19200, 24800, 29500],
+              borderColor: '#991b1b',
+              backgroundColor: 'rgba(153, 27, 27, 0.1)',
+              tension: 0.4,
+              fill: true,
+              pointBackgroundColor: '#d97706',
+              pointRadius: 5
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } }
+          }
+        });
+      }
+
+      // 2. Top Dishes Bar Chart
+      const dishesCtx = document.getElementById('topDishesChart');
+      if (dishesCtx) {
+        if (topDishesChartInstance) topDishesChartInstance.destroy();
+        topDishesChartInstance = new Chart(dishesCtx, {
+          type: 'bar',
+          data: {
+            labels: ['كشري وسط', 'طاجن لحمة', 'كشري كبير', 'بوكس اللمة', 'أرز بلبن فرن'],
+            datasets: [{
+              label: 'عدد الأطباق المباعة',
+              data: [420, 290, 310, 180, 240],
+              backgroundColor: ['#991b1b', '#d97706', '#b45309', '#f59e0b', '#78350f'],
+              borderRadius: 8
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } }
+          }
+        });
+      }
+
+      // Branch Table
+      const branchRows = document.getElementById("branch-performance-rows");
+      if (branchRows) {
+        branchRows.innerHTML = `
+          <tr>
+            <td class="p-3 font-bold">فرع وسط البلد - التحرير</td>
+            <td class="p-3 font-black text-amber-800">1,420 طلب</td>
+            <td class="p-3 font-black text-red-900">184,200 ج.م</td>
+            <td class="p-3">22 دقيقة</td>
+            <td class="p-3 text-amber-600 font-bold">★ 4.9</td>
+            <td class="p-3 text-green-700 font-bold">ممتاز 🟢</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-bold">فرع مدينة نصر - عباس العقاد</td>
+            <td class="p-3 font-black text-amber-800">1,280 طلب</td>
+            <td class="p-3 font-black text-red-900">165,800 ج.م</td>
+            <td class="p-3">25 دقيقة</td>
+            <td class="p-3 text-amber-600 font-bold">★ 4.8</td>
+            <td class="p-3 text-green-700 font-bold">ممتاز 🟢</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-bold">فرع المهندسين - جامعة الدول</td>
+            <td class="p-3 font-black text-amber-800">1,150 طلب</td>
+            <td class="p-3 font-black text-red-900">152,000 ج.م</td>
+            <td class="p-3">24 دقيقة</td>
+            <td class="p-3 text-amber-600 font-bold">★ 4.9</td>
+            <td class="p-3 text-green-700 font-bold">ممتاز 🟢</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-bold">فرع التجمع الخامس - التسعين</td>
+            <td class="p-3 font-black text-amber-800">980 طلب</td>
+            <td class="p-3 font-black text-red-900">142,500 ج.م</td>
+            <td class="p-3">28 دقيقة</td>
+            <td class="p-3 text-amber-600 font-bold">★ 4.8</td>
+            <td class="p-3 text-green-700 font-bold">ممتاز 🟢</td>
+          </tr>
+        `;
+      }
+    }
+
+    // ================= SETTINGS LOGIC =================
+    function loadSettingsToForm() {
+      const s = window.zaeemStore.getSettings();
+      if (!s) return;
+      document.getElementById("set-name").value = s.name || "";
+      document.getElementById("set-slogan").value = s.slogan || "";
+      document.getElementById("set-hotline").value = s.hotline || "";
+      document.getElementById("set-whatsapp").value = s.whatsapp || "";
+      document.getElementById("set-announcement").value = s.announcementBanner || "";
+    }
+
+    function saveGeneralSettings(e) {
+      e.preventDefault();
+      const updated = {
+        name: document.getElementById("set-name").value.trim(),
+        slogan: document.getElementById("set-slogan").value.trim(),
+        hotline: document.getElementById("set-hotline").value.trim(),
+        whatsapp: document.getElementById("set-whatsapp").value.trim(),
+        announcementBanner: document.getElementById("set-announcement").value.trim()
+      };
+      window.zaeemStore.saveSettings(updated);
+      showToast("تم حفظ وتحديث إعدادات المطعم بنجاح! 💾", "success");
+    }
+  </script>
+</body>
+</html>

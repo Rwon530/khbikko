@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>إتمام الطلب والدفع | كشري الزعيم</title>
+  <meta name="theme-color" content="#991b1b" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./css/custom.css" />
+</head>
+<body class="bg-[#fffdf9] text-zinc-900 flex flex-col min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-stone-200 sticky top-0 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="./index.html" class="flex items-center gap-2">
+          <span class="text-2xl">👑</span>
+          <span class="text-xl font-black text-red-900">كشري الزعيم</span>
+        </a>
+        <div class="flex items-center gap-3 text-xs font-bold">
+          <a href="./menu.html" class="text-stone-600 hover:text-red-800 transition">← العودة للمنيو</a>
+          <span class="text-stone-300">|</span>
+          <span class="text-green-700 bg-green-50 px-2 py-1 rounded-md border border-green-200">🔒 إتمام طلب آمن 100%</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Empty Cart Fallback -->
+    <div id="checkout-empty-state" class="hidden text-center py-20 space-y-4 max-w-md mx-auto">
+      <div class="text-6xl">🛒</div>
+      <h2 class="text-2xl font-black text-zinc-800">السلة فارغة حالياً!</h2>
+      <p class="text-stone-500 text-sm">لم تقم بإضافة أي أطباق للسلة حتى الآن. اختر ما تشتهيه من المنيو أولاً.</p>
+      <a href="./menu.html" class="inline-block bg-red-800 hover:bg-red-900 text-white font-bold px-6 py-3 rounded-xl shadow transition">
+        تصفح منيو الزعيم 🍲
+      </a>
+    </div>
+
+    <!-- Main Checkout Grid -->
+    <div id="checkout-content" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Left Column: Fulfillment, Address, and Payment Forms (8 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- Step 1: Fulfillment Type -->
+        <div class="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm space-y-4">
+          <div class="flex items-center gap-2 border-b border-stone-100 pb-3">
+            <span class="w-7 h-7 rounded-full bg-red-800 text-white flex items-center justify-center text-xs font-bold">1</span>
+            <h3 class="font-extrabold text-base text-zinc-900">طريقة استلام الطلب</h3>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <label class="fulfillment-card flex flex-col items-center p-4 rounded-2xl border-2 border-amber-600 bg-amber-50 cursor-pointer transition text-center" onclick="setFulfillment('delivery')">
+              <input type="radio" name="fulfillmentType" value="delivery" checked class="hidden" />
+              <span class="text-2xl mb-1">🛵</span>
+              <span class="font-bold text-sm text-zinc-900">توصيل للمنزل</span>
+              <span class="text-[11px] text-stone-500 mt-0.5">توصيل سريع ساخن لباب بيتك</span>
+            </label>
+
+            <label class="fulfillment-card flex flex-col items-center p-4 rounded-2xl border-2 border-stone-200 bg-white hover:border-amber-400 cursor-pointer transition text-center" onclick="setFulfillment('pickup')">
+              <input type="radio" name="fulfillmentType" value="pickup" class="hidden" />
+              <span class="text-2xl mb-1">🏪</span>
+              <span class="font-bold text-sm text-zinc-900">استلام من الفرع</span>
+              <span class="text-[11px] text-stone-500 mt-0.5">بدون رسوم توصيل (تجهيز مسبق)</span>
+            </label>
+          </div>
+
+          <!-- Branch Selection -->
+          <div class="pt-2">
+            <label class="block text-xs font-bold text-stone-700 mb-1.5">الفرع المسؤول عن تنفيذ الطلب:</label>
+            <select id="checkout-branch-select" onchange="onCheckoutBranchChange()" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-sm font-bold text-zinc-800 outline-none focus:ring-2 focus:ring-amber-500">
+              <!-- Injected via JS -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Step 2: Customer and Address Details -->
+        <div class="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm space-y-4">
+          <div class="flex items-center gap-2 border-b border-stone-100 pb-3">
+            <span class="w-7 h-7 rounded-full bg-red-800 text-white flex items-center justify-center text-xs font-bold">2</span>
+            <h3 class="font-extrabold text-base text-zinc-900">بيانات العميل والعنوان</h3>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-stone-700 mb-1">الاسم بالكامل *</label>
+              <input type="text" id="cust-name" required placeholder="أحمد محمد" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-sm font-medium outline-none focus:ring-2 focus:ring-amber-500" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-stone-700 mb-1">رقم الموبايل (لتأكيد الطلب) *</label>
+              <input type="tel" id="cust-phone" required placeholder="010XXXXXXXX" dir="ltr" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-sm font-bold text-right outline-none focus:ring-2 focus:ring-amber-500" />
+            </div>
+          </div>
+
+          <!-- Delivery Specific Address Fields -->
+          <div id="delivery-address-container" class="space-y-4 pt-2 border-t border-stone-100">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-stone-700 mb-1">المنطقة / الحي *</label>
+                <select id="cust-area" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-sm font-medium outline-none focus:ring-2 focus:ring-amber-500">
+                  <option value="المنطقة الرئيسية">المنطقة القريبة من الفرع</option>
+                  <option value="المنطقة المجاورة">المنطقة المحيطة</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-stone-700 mb-1">اسم الشارع وعلامة مميزة *</label>
+                <input type="text" id="cust-street" placeholder="شارع طلعت حرب، بجوار بنك مصر" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-sm font-medium outline-none focus:ring-2 focus:ring-amber-500" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-stone-700 mb-1">رقم العمارة</label>
+                <input type="text" id="cust-building" placeholder="12" class="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-500" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-stone-700 mb-1">الدور / الطابق</label>
+                <input type="text" id="cust-floor" placeholder="3" class="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-500" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-stone-700 mb-1">رقم الشقة</label>
+                <input type="text" id="cust-apt" placeholder="8" class="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-500" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-stone-700 mb-1">ملاحظات للطيار / السائق (اختياري)</label>
+              <input type="text" id="cust-notes" placeholder="رن الجرس، اركن أمام المدخل..." class="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs outline-none focus:ring-2 focus:ring-amber-500" />
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Step 3: Payment Method -->
+        <div class="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm space-y-4">
+          <div class="flex items-center gap-2 border-b border-stone-100 pb-3">
+            <span class="w-7 h-7 rounded-full bg-red-800 text-white flex items-center justify-center text-xs font-bold">3</span>
+            <h3 class="font-extrabold text-base text-zinc-900">طريقة الدفع</h3>
+          </div>
+
+          <div class="space-y-3">
+            <!-- Cash -->
+            <label class="payment-method-card flex items-center justify-between p-4 rounded-2xl border-2 border-amber-600 bg-amber-50 cursor-pointer transition" onclick="setPaymentMethod('cash')">
+              <div class="flex items-center gap-3">
+                <input type="radio" name="paymentMethod" value="cash" checked class="w-4 h-4 text-red-600 focus:ring-red-500" />
+                <div>
+                  <div class="font-bold text-sm text-zinc-900">💵 دفع كاش عند الاستلام</div>
+                  <div class="text-xs text-stone-500">ادفع نقداً لمندوب التوصيل أو عند الاستلام من الفرع</div>
+                </div>
+              </div>
+              <span class="text-xs bg-amber-200/80 text-amber-900 font-bold px-2 py-0.5 rounded">مباشر</span>
+            </label>
+
+            <!-- Vodafone Cash -->
+            <label class="payment-method-card flex items-center justify-between p-4 rounded-2xl border-2 border-stone-200 bg-white hover:border-amber-400 cursor-pointer transition" onclick="setPaymentMethod('vodafone_cash')">
+              <div class="flex items-center gap-3">
+                <input type="radio" name="paymentMethod" value="vodafone_cash" class="w-4 h-4 text-red-600 focus:ring-red-500" />
+                <div>
+                  <div class="font-bold text-sm text-zinc-900">📱 فودافون كاش / المحافظ الإلكترونية</div>
+                  <div class="text-xs text-stone-500">تحويل مباشر لرقم المحفظة المعتمد للفرع</div>
+                </div>
+              </div>
+              <span class="text-xs bg-red-100 text-red-800 font-bold px-2 py-0.5 rounded">فودافون كاش</span>
+            </label>
+
+            <div id="vodafone-cash-instructions" class="hidden bg-red-50 p-4 rounded-2xl border border-red-200 text-xs space-y-2">
+              <div class="font-bold text-red-900">تعليمات التحويل عبر فودافون كاش / إنستاباي:</div>
+              <p class="text-stone-700">يرجى تحويل المبلغ الإجمالي إلى رقم كشري الزعيم: <strong class="font-black text-red-800 text-sm" dir="ltr">01012345678</strong></p>
+              <input type="text" id="vodafone-sender-number" placeholder="أدخل رقم المحفظة المحول منها للتأكيد" class="w-full p-2.5 bg-white border border-red-200 rounded-xl text-xs" />
+            </div>
+
+            <!-- Visa / Card -->
+            <label class="payment-method-card flex items-center justify-between p-4 rounded-2xl border-2 border-stone-200 bg-white hover:border-amber-400 cursor-pointer transition" onclick="setPaymentMethod('card')">
+              <div class="flex items-center gap-3">
+                <input type="radio" name="paymentMethod" value="card" class="w-4 h-4 text-red-600 focus:ring-red-500" />
+                <div>
+                  <div class="font-bold text-sm text-zinc-900">💳 بطاقة بنكية (فيزا / ماستركارد / ميزة)</div>
+                  <div class="text-xs text-stone-500">دفع إلكتروني فوري ومؤمن ببوابة الدفع البنكية</div>
+                </div>
+              </div>
+              <span class="text-xs bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded">بطاقة بنكية</span>
+            </label>
+
+            <div id="card-payment-form" class="hidden bg-stone-50 p-4 rounded-2xl border border-stone-200 space-y-3">
+              <div>
+                <label class="block text-xs font-bold text-stone-700 mb-1">اسم حامل البطاقة</label>
+                <input type="text" placeholder="AHMED SALEM" class="w-full p-2.5 bg-white border border-stone-200 rounded-xl text-xs uppercase" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-stone-700 mb-1">رقم البطاقة (16 رقم)</label>
+                <input type="text" placeholder="**** **** **** 4820" dir="ltr" class="w-full p-2.5 bg-white border border-stone-200 rounded-xl text-xs font-mono" />
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <input type="text" placeholder="MM/YY" dir="ltr" class="p-2.5 bg-white border border-stone-200 rounded-xl text-xs text-center font-mono" />
+                <input type="password" placeholder="CVV (3 أرقام)" dir="ltr" maxlength="4" class="p-2.5 bg-white border border-stone-200 rounded-xl text-xs text-center font-mono" />
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Order Summary & Placement (5 cols) -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <div class="bg-white p-6 rounded-3xl border-2 border-amber-500/40 shadow-lg space-y-5 sticky top-24">
+          <div class="flex items-center justify-between border-b border-stone-100 pb-3">
+            <h3 class="font-black text-lg text-zinc-900">ملخص الطلب</h3>
+            <span class="text-xs bg-amber-100 text-amber-900 font-extrabold px-2.5 py-1 rounded-full" id="summary-items-count">0 أصناف</span>
+          </div>
+
+          <!-- Items Mini List -->
+          <div id="summary-items-list" class="max-h-60 overflow-y-auto space-y-3 pr-1 text-xs">
+            <!-- Injected via JS -->
+          </div>
+
+          <!-- Promo Code Input -->
+          <div class="pt-2 border-t border-stone-100">
+            <label class="block text-xs font-bold text-stone-700 mb-1.5">كوبون الخصم أو كود العرض:</label>
+            <div class="flex gap-2">
+              <input type="text" id="coupon-input" placeholder="مثال: ZAEEM2026" class="flex-1 p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold uppercase focus:ring-2 focus:ring-amber-500 outline-none" />
+              <button onclick="applyCoupon()" class="bg-stone-900 hover:bg-amber-600 text-white text-xs font-black px-4 py-2.5 rounded-xl transition">
+                تطبيق
+              </button>
+            </div>
+            <div id="coupon-applied-message" class="hidden text-xs text-green-700 font-bold mt-1.5 flex items-center gap-1">
+              <span>✅</span>
+              <span id="coupon-msg-text">تم تطبيق الخصم بنجاح!</span>
+            </div>
+          </div>
+
+          <!-- Loyalty Points Redemption -->
+          <div class="bg-amber-50/70 p-3.5 rounded-2xl border border-amber-200/80 space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-amber-950">👑 نقاط ولاء الزعيم المتاحة:</span>
+              <span class="font-black text-amber-700" id="user-points-badge">120 نقطة</span>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-stone-600">
+              <span>استبدال 50 نقطة بخصم 25 ج.م:</span>
+              <button onclick="toggleLoyaltyPointsRedeem()" id="loyalty-redeem-btn" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-2.5 py-1 rounded-lg text-xs transition">
+                استبدال النقاط
+              </button>
+            </div>
+          </div>
+
+          <!-- Price Calculations Breakdown -->
+          <div class="space-y-2 text-xs font-semibold text-stone-600 pt-2 border-t border-stone-100">
+            <div class="flex justify-between">
+              <span>المجموع الفرعي:</span>
+              <span id="calc-subtotal" class="font-bold text-zinc-900">0.00 ج.م</span>
+            </div>
+            <div id="calc-discount-row" class="hidden flex justify-between text-red-700 font-bold">
+              <span>خصم الكوبون:</span>
+              <span id="calc-discount">- 0.00 ج.م</span>
+            </div>
+            <div id="calc-loyalty-row" class="hidden flex justify-between text-amber-800 font-bold">
+              <span>خصم نقاط الولاء:</span>
+              <span id="calc-loyalty">- 0.00 ج.م</span>
+            </div>
+            <div id="calc-delivery-row" class="flex justify-between">
+              <span>رسوم التوصيل:</span>
+              <span id="calc-delivery" class="font-bold text-zinc-900">15.00 ج.م</span>
+            </div>
+            <div class="flex justify-between pt-2 border-t border-stone-200 text-base font-black text-zinc-900">
+              <span>المبلغ الإجمالي:</span>
+              <span id="calc-grand-total" class="text-2xl text-red-800">0.00 ج.م</span>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button onclick="submitFinalOrder()" class="w-full bg-gradient-to-r from-red-800 via-red-700 to-amber-600 hover:from-red-900 hover:to-amber-700 text-white font-black py-4 rounded-2xl shadow-zaeem hover:shadow-xl transition transform hover:scale-[1.02] flex items-center justify-center gap-2 text-base">
+            <span>تأكيد وإرسال الطلب الآن 🚀</span>
+          </button>
+
+          <p class="text-[11px] text-stone-400 text-center">بالضغط على تأكيد، فإنك توافق على شروط الخدمة لـ مطعم كشري الزعيم.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="./js/data.js"></script>
+  <script src="./js/audio.js"></script>
+  <script src="./js/receipt.js"></script>
+  <script src="./js/store.js"></script>
+  <script src="./js/main.js"></script>
+
+  <script>
+    let currentFulfillment = "delivery";
+    let currentPayment = "cash";
+    let appliedCoupon = null;
+    let redeemedPoints = 0;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initCheckoutBranches();
+      renderCheckoutSummary();
+    });
+
+    function initCheckoutBranches() {
+      const select = document.getElementById("checkout-branch-select");
+      if (!select || !window.zaeemStore) return;
+
+      const branches = window.zaeemStore.getBranches();
+      const selected = window.zaeemStore.getSelectedBranch();
+
+      select.innerHTML = branches.map(b => `
+        <option value="${b.id}" ${selected && selected.id === b.id ? 'selected' : ''}>${b.name} (${b.phone})</option>
+      `).join("");
+
+      updateAreaOptions();
+    }
+
+    function onCheckoutBranchChange() {
+      const select = document.getElementById("checkout-branch-select");
+      if (select && window.zaeemStore) {
+        window.zaeemStore.setSelectedBranch(select.value);
+        updateAreaOptions();
+        renderCheckoutSummary();
+      }
+    }
+
+    function updateAreaOptions() {
+      const areaSelect = document.getElementById("cust-area");
+      const branch = window.zaeemStore.getSelectedBranch();
+      if (!areaSelect || !branch) return;
+
+      if (branch.zones && branch.zones.length > 0) {
+        areaSelect.innerHTML = branch.zones.map((z, idx) => `
+          <option value="${z.name}">${z.name} (توصيل ${z.fee} ج.م - ${z.time})</option>
+        `).join("");
+      }
+    }
+
+    function setFulfillment(type) {
+      currentFulfillment = type;
+      const deliveryContainer = document.getElementById("delivery-address-container");
+      
+      const cards = document.querySelectorAll(".fulfillment-card");
+      cards.forEach(card => {
+        const input = card.querySelector("input");
+        if (input.value === type) {
+          card.classList.add("border-amber-600", "bg-amber-50");
+          card.classList.remove("border-stone-200", "bg-white");
+          input.checked = true;
+        } else {
+          card.classList.remove("border-amber-600", "bg-amber-50");
+          card.classList.add("border-stone-200", "bg-white");
+          input.checked = false;
+        }
+      });
+
+      if (type === "delivery") {
+        if (deliveryContainer) deliveryContainer.classList.remove("hidden");
+      } else {
+        if (deliveryContainer) deliveryContainer.classList.add("hidden");
+      }
+
+      renderCheckoutSummary();
+    }
+
+    function setPaymentMethod(method) {
+      currentPayment = method;
+      const vodafoneBox = document.getElementById("vodafone-cash-instructions");
+      const cardBox = document.getElementById("card-payment-form");
+
+      const cards = document.querySelectorAll(".payment-method-card");
+      cards.forEach(card => {
+        const input = card.querySelector("input");
+        if (input.value === method) {
+          card.classList.add("border-amber-600", "bg-amber-50");
+          card.classList.remove("border-stone-200", "bg-white");
+          input.checked = true;
+        } else {
+          card.classList.remove("border-amber-600", "bg-amber-50");
+          card.classList.add("border-stone-200", "bg-white");
+          input.checked = false;
+        }
+      });
+
+      if (vodafoneBox) vodafoneBox.classList.toggle("hidden", method !== "vodafone_cash");
+      if (cardBox) cardBox.classList.toggle("hidden", method !== "card");
+    }
+
+    function applyCoupon() {
+      const input = document.getElementById("coupon-input");
+      if (!input) return;
+      const code = input.value.trim();
+      if (!code) {
+        showToast("يرجى إدخال كود الكوبون", "warning");
+        return;
+      }
+
+      const totals = window.zaeemStore.getCartTotals(code, redeemedPoints, window.zaeemStore.getSelectedBranch().id, currentFulfillment);
+      if (totals.validCoupon) {
+        appliedCoupon = code;
+        showToast(`تم تطبيق الكوبون "${code}" بخصم ${totals.discount.toFixed(2)} ج.م 🎉`, "success");
+        const msgEl = document.getElementById("coupon-applied-message");
+        if (msgEl) msgEl.classList.remove("hidden");
+      } else {
+        showToast("كود الكوبون غير صحيح أو لم يبلغ الحد الأدنى للطلب", "error");
+      }
+
+      renderCheckoutSummary();
+    }
+
+    function toggleLoyaltyPointsRedeem() {
+      if (redeemedPoints > 0) {
+        redeemedPoints = 0;
+        document.getElementById("loyalty-redeem-btn").textContent = "استبدال النقاط";
+        showToast("تم إلغاء استخدام النقاط", "info");
+      } else {
+        redeemedPoints = 50;
+        document.getElementById("loyalty-redeem-btn").textContent = "إلغاء الاستبدال";
+        showToast("تم تطبيق خصم 25 ج.م بنقاط الولاء! 👑", "success");
+      }
+      renderCheckoutSummary();
+    }
+
+    function renderCheckoutSummary() {
+      const cart = window.zaeemStore.getCart();
+      const emptyState = document.getElementById("checkout-empty-state");
+      const content = document.getElementById("checkout-content");
+
+      if (cart.length === 0) {
+        if (emptyState) emptyState.classList.remove("hidden");
+        if (content) content.classList.add("hidden");
+        return;
+      }
+
+      if (emptyState) emptyState.classList.add("hidden");
+      if (content) content.classList.remove("hidden");
+
+      const itemsList = document.getElementById("summary-items-list");
+      if (itemsList) {
+        itemsList.innerHTML = cart.map((item, idx) => `
+          <div class="flex items-center justify-between py-2 border-b border-stone-100">
+            <div class="flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-stone-100 flex items-center justify-center font-bold text-zinc-700 text-[10px]">${item.quantity}x</span>
+              <div>
+                <span class="font-bold text-zinc-900">${item.name}</span>
+                <span class="text-[10px] text-stone-500">(${item.size})</span>
+              </div>
+            </div>
+            <span class="font-black text-zinc-900">${item.itemTotal.toFixed(2)} ج.م</span>
+          </div>
+        `).join("");
+      }
+
+      const branch = window.zaeemStore.getSelectedBranch();
+      const totals = window.zaeemStore.getCartTotals(appliedCoupon, redeemedPoints, branch.id, currentFulfillment);
+
+      document.getElementById("summary-items-count").textContent = totals.itemsCount + " أصناف";
+      document.getElementById("calc-subtotal").textContent = totals.subtotal.toFixed(2) + " ج.م";
+      
+      const discRow = document.getElementById("calc-discount-row");
+      if (totals.discount > 0) {
+        discRow.classList.remove("hidden");
+        document.getElementById("calc-discount").textContent = "- " + totals.discount.toFixed(2) + " ج.م";
+      } else {
+        discRow.classList.add("hidden");
+      }
+
+      const loyaltyRow = document.getElementById("calc-loyalty-row");
+      if (totals.loyaltyDiscount > 0) {
+        loyaltyRow.classList.remove("hidden");
+        document.getElementById("calc-loyalty").textContent = "- " + totals.loyaltyDiscount.toFixed(2) + " ج.م";
+      } else {
+        loyaltyRow.classList.add("hidden");
+      }
+
+      const delRow = document.getElementById("calc-delivery-row");
+      if (currentFulfillment === "delivery") {
+        delRow.classList.remove("hidden");
+        document.getElementById("calc-delivery").textContent = totals.deliveryFee.toFixed(2) + " ج.م";
+      } else {
+        delRow.classList.add("hidden");
+      }
+
+      document.getElementById("calc-grand-total").textContent = totals.total.toFixed(2) + " ج.م";
+    }
+
+    function submitFinalOrder() {
+      const name = document.getElementById("cust-name").value.trim();
+      const phone = document.getElementById("cust-phone").value.trim();
+
+      if (!name || !phone) {
+        showToast("يرجى ملء الاسم ورقم الهاتف لتأكيد الطلب", "warning");
+        return;
+      }
+
+      const branch = window.zaeemStore.getSelectedBranch();
+      const totals = window.zaeemStore.getCartTotals(appliedCoupon, redeemedPoints, branch.id, currentFulfillment);
+
+      let addressData = null;
+      if (currentFulfillment === "delivery") {
+        const area = document.getElementById("cust-area") ? document.getElementById("cust-area").value : "المنطقة";
+        const street = document.getElementById("cust-street").value.trim();
+        const building = document.getElementById("cust-building").value.trim();
+        const floor = document.getElementById("cust-floor").value.trim();
+        const apt = document.getElementById("cust-apt").value.trim();
+        const notes = document.getElementById("cust-notes").value.trim();
+
+        if (!street) {
+          showToast("يرجى إدخال اسم الشارع والعنوان", "warning");
+          return;
+        }
+
+        addressData = {
+          governorate: "القاهرة",
+          area,
+          street,
+          building: building || "-",
+          floor: floor || "-",
+          apartment: apt || "-",
+          notes
+        };
+      }
+
+      const orderData = {
+        customerName: name,
+        customerPhone: phone,
+        customerEmail: "",
+        fulfillmentType: currentFulfillment,
+        branchId: branch.id,
+        branchName: branch.name,
+        address: addressData,
+        paymentMethod: currentPayment,
+        subtotal: totals.subtotal,
+        discount: totals.totalDiscount,
+        couponCode: appliedCoupon,
+        deliveryFee: totals.deliveryFee,
+        tax: totals.tax,
+        total: totals.total
+      };
+
+      const newOrder = window.zaeemStore.placeOrder(orderData);
+      showToast(`تم تأكيد طلبك بنجاح برقم #${newOrder.id} 🎉`, "success");
+
+      // Redirect to live tracking page
+      setTimeout(() => {
+        window.location.href = `./track.html?orderId=${newOrder.id}`;
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

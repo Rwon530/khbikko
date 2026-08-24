@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تواصل معنا وفروعنا | كشري الزعيم</title>
+  <meta name="theme-color" content="#991b1b" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./css/custom.css" />
+</head>
+<body class="bg-[#fffdf9] text-zinc-900 flex flex-col min-h-screen">
+
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <a href="./index.html" class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-red-800 to-amber-600 flex items-center justify-center text-white text-2xl shadow-md">👑</div>
+          <div>
+            <span class="text-2xl font-black text-red-900">كشري الزعيم</span>
+            <span class="block text-[10px] font-bold text-amber-700 -mt-1">تواصل معنا وفروعنا</span>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-6 text-sm font-bold text-zinc-700">
+          <a href="./index.html" class="hover:text-red-800 transition">الرئيسية</a>
+          <a href="./menu.html" class="hover:text-red-800 transition">المنيو</a>
+          <a href="./offers.html" class="hover:text-red-800 transition">العروض</a>
+          <a href="./reserve.html" class="hover:text-red-800 transition">حجز طاولة</a>
+          <a href="./track.html" class="hover:text-red-800 transition">تتبع طلبك</a>
+          <a href="./contact.html" class="text-red-800 border-b-2 border-red-800 pb-1">الفروع والتواصل</a>
+        </nav>
+
+        <a href="https://wa.me/201012345678" target="_blank" class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow">
+          <span>واتساب مباشر 💬</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+    
+    <!-- Top Highlights Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div class="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm flex items-center gap-4">
+        <div class="w-14 h-14 bg-red-100 text-red-800 rounded-2xl flex items-center justify-center text-2xl font-black">📞</div>
+        <div>
+          <div class="text-xs text-stone-500 font-bold">الخط الساخن الموحد 24 ساعة:</div>
+          <a href="tel:19888" class="text-2xl font-black text-red-900 block hover:underline" dir="ltr">19888</a>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm flex items-center gap-4">
+        <div class="w-14 h-14 bg-green-100 text-green-800 rounded-2xl flex items-center justify-center text-2xl font-black">💬</div>
+        <div>
+          <div class="text-xs text-stone-500 font-bold">خدمة عملاء واتساب:</div>
+          <a href="https://wa.me/201012345678" target="_blank" class="text-lg font-black text-green-700 block hover:underline" dir="ltr">01012345678</a>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm flex items-center gap-4">
+        <div class="w-14 h-14 bg-amber-100 text-amber-800 rounded-2xl flex items-center justify-center text-2xl font-black">📍</div>
+        <div>
+          <div class="text-xs text-stone-500 font-bold">عدد الفروع النشطة:</div>
+          <span class="text-xl font-black text-amber-900 block">8 فروع بالقاهرة والإسكندرية</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map & Form Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Interactive Map Frame (7 cols) -->
+      <div class="lg:col-span-7 bg-white p-6 rounded-3xl border border-stone-200 shadow-md space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-black text-zinc-900 flex items-center gap-2">
+            <span>🗺️</span>
+            <span>خريطة مواقع الفروع:</span>
+          </h2>
+          <span class="text-xs text-stone-500 font-bold" id="map-active-branch-name">فرع وسط البلد</span>
+        </div>
+
+        <div class="w-full h-80 sm:h-96 rounded-2xl overflow-hidden border border-stone-200 shadow-inner">
+          <iframe id="google-map-iframe" src="https://maps.google.com/maps?q=Tahrir+Square+Cairo&t=&z=15&ie=UTF8&iwloc=&output=embed" class="w-full h-full border-0" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+
+        <div class="flex flex-wrap gap-2 pt-2" id="map-branch-buttons">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- Contact / Feedback Form (5 cols) -->
+      <div class="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl border border-stone-200 shadow-md space-y-4">
+        <div class="border-b border-stone-100 pb-2">
+          <h3 class="text-lg font-black text-zinc-900">أرسل استفسارك أو مقترحك</h3>
+          <p class="text-xs text-stone-500 mt-0.5">رأيك يهمنا دائماً لتطوير الخدمة وجودة الأطباق.</p>
+        </div>
+
+        <form id="contact-inquiry-form" onsubmit="handleContactSubmit(event)" class="space-y-4 text-xs">
+          <div>
+            <label class="block font-bold text-stone-700 mb-1">الاسم الكريم *</label>
+            <input type="text" id="contact-name" required placeholder="أحمد سعيد" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl outline-none focus:ring-2 focus:ring-amber-500" />
+          </div>
+
+          <div>
+            <label class="block font-bold text-stone-700 mb-1">رقم الموبايل *</label>
+            <input type="tel" id="contact-phone" required placeholder="010XXXXXXXX" dir="ltr" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl text-right outline-none focus:ring-2 focus:ring-amber-500" />
+          </div>
+
+          <div>
+            <label class="block font-bold text-stone-700 mb-1">نوع الرسالة</label>
+            <select id="contact-type" class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl font-semibold outline-none focus:ring-2 focus:ring-amber-500">
+              <option value="استفسار عام">استفسار عام عن المنيو أو التوصيل</option>
+              <option value="اقتراح تطوير">اقتراح لتطوير الخدمة</option>
+              <option value="شكوى أو ملاحظة">شكوى بخصوص أوردر سابق</option>
+              <option value="حفلات وطلبات شركات">طلبات جملة وحفلات وشركات</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-stone-700 mb-1">نص الرسالة *</label>
+            <textarea id="contact-message" required rows="4" placeholder="اكتب تفاصيل رسالتك هنا..." class="w-full p-3 bg-stone-50 border border-stone-200 rounded-xl outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+          </div>
+
+          <button type="submit" class="w-full bg-red-800 hover:bg-red-900 text-white font-black py-3.5 rounded-xl shadow transition text-sm">
+            إرسال الرسالة للإدارة 📨
+          </button>
+        </form>
+
+        <div id="contact-success-msg" class="hidden bg-green-50 text-green-900 border border-green-300 p-3 rounded-xl text-center text-xs font-bold">
+          تم استلام رسالتك بنجاح وسيتواصل معك فريق خدمة العملاء في أقرب وقت ❤️
+        </div>
+      </div>
+
+    </div>
+
+    <!-- All Branches Directory -->
+    <div class="space-y-6">
+      <h2 class="text-2xl font-black text-zinc-900">دليل عناوين وأرقام فروع كشري الزعيم:</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="branches-full-grid">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+
+  </main>
+
+  <script src="./js/data.js"></script>
+  <script src="./js/audio.js"></script>
+  <script src="./js/receipt.js"></script>
+  <script src="./js/store.js"></script>
+  <script src="./js/main.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderMapBranchButtons();
+      renderAllBranches();
+    });
+
+    function renderMapBranchButtons() {
+      const container = document.getElementById("map-branch-buttons");
+      if (!container || !window.zaeemStore) return;
+
+      const branches = window.zaeemStore.getBranches();
+      container.innerHTML = branches.map((b, idx) => `
+        <button onclick="changeMapLocation('${b.id}', '${b.mapEmbed}', '${b.name}')" class="text-xs font-bold px-3 py-1.5 rounded-xl border transition ${idx === 0 ? 'bg-amber-600 text-white border-amber-600' : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'}">
+          📍 ${b.name.split(' - ')[0]}
+        </button>
+      `).join("");
+    }
+
+    function changeMapLocation(id, url, name) {
+      const iframe = document.getElementById("google-map-iframe");
+      const label = document.getElementById("map-active-branch-name");
+      if (iframe) iframe.src = url;
+      if (label) label.textContent = name;
+      showToast(`تم التبديل إلى خريطة: ${name}`, "info");
+    }
+
+    function renderAllBranches() {
+      const grid = document.getElementById("branches-full-grid");
+      if (!grid || !window.zaeemStore) return;
+
+      const branches = window.zaeemStore.getBranches();
+      grid.innerHTML = branches.map(b => `
+        <div class="bg-white rounded-3xl p-6 border border-stone-200 shadow-sm space-y-4 hover:shadow-md transition">
+          <div class="flex items-center justify-between border-b border-stone-100 pb-3">
+            <h3 class="font-extrabold text-base text-zinc-900">${b.name}</h3>
+            <span class="bg-green-100 text-green-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full">مفتوح 🟢</span>
+          </div>
+          <div class="text-xs text-stone-600 space-y-2">
+            <div>📍 <strong>العنوان:</strong> ${b.address}</div>
+            <div>📞 <strong>موبايل:</strong> <a href="tel:${b.phone}" class="font-bold text-red-800 hover:underline" dir="ltr">${b.phone}</a></div>
+            <div>☎️ <strong>أرضي:</strong> <span dir="ltr">${b.landline || '-'}</span></div>
+            <div>🕒 <strong>مواعيد العمل:</strong> ${b.hours}</div>
+          </div>
+          <div class="pt-2 flex gap-2">
+            <a href="tel:${b.phone}" class="flex-1 bg-red-800 hover:bg-red-900 text-white text-xs font-bold py-2 rounded-xl text-center transition">
+              اتصال بالفرع 📞
+            </a>
+            <a href="${b.mapEmbed}" target="_blank" class="bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-bold px-4 py-2 rounded-xl transition">
+              الاتجاهات 🧭
+            </a>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      document.getElementById("contact-inquiry-form").reset();
+      document.getElementById("contact-success-msg").classList.remove("hidden");
+      showToast("تم إرسال رسالتك بنجاح! شكراً لتواصلك معنا 💬", "success");
+    }
+  </script>
+</body>
+</html>

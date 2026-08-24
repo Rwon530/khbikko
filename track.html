@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تتبع حالة الطلب لحظياً | كشري الزعيم</title>
+  <meta name="theme-color" content="#991b1b" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./css/custom.css" />
+</head>
+<body class="bg-[#fffdf9] text-zinc-900 flex flex-col min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-stone-200 sticky top-0 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="./index.html" class="flex items-center gap-2">
+          <span class="text-2xl">👑</span>
+          <span class="text-xl font-black text-red-900">كشري الزعيم</span>
+        </a>
+        <div class="flex items-center gap-4 text-xs font-bold">
+          <a href="./menu.html" class="text-stone-600 hover:text-red-800 transition">المنيو</a>
+          <a href="./index.html" class="text-stone-600 hover:text-red-800 transition">الرئيسية</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-6">
+    
+    <!-- Tracking Search Box -->
+    <div class="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm space-y-3">
+      <h2 class="text-lg font-black text-zinc-900 flex items-center gap-2">
+        <span>🛵</span>
+        <span>تتبع طلبك بالرقم المرجعي</span>
+      </h2>
+      <div class="flex gap-2">
+        <input type="text" id="track-order-input" placeholder="أدخل رقم الطلب (مثال: ZAEEM-8492)" class="flex-1 p-3 bg-stone-50 border border-stone-200 rounded-xl text-sm font-bold uppercase focus:ring-2 focus:ring-amber-500 outline-none" />
+        <button onclick="searchAndTrackOrder()" class="bg-red-800 hover:bg-red-900 text-white font-extrabold px-6 py-3 rounded-xl transition flex items-center gap-1 text-sm">
+          <span>بحث</span>
+          <span>🔍</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Active Tracking Card -->
+    <div id="tracking-card" class="bg-white rounded-3xl border border-stone-200 shadow-lg p-6 sm:p-8 space-y-8">
+      
+      <!-- Order Meta Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-100 pb-6">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-stone-500">رقم الطلب:</span>
+            <span id="track-id" class="text-xl font-black text-red-900 font-mono">#ZAEEM-8492</span>
+            <span id="track-type-badge" class="text-xs bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded-full">🛵 توصيل</span>
+          </div>
+          <div class="text-xs text-stone-500 mt-1 flex items-center gap-3">
+            <span id="track-date">اليوم، 01:20 م</span>
+            <span>•</span>
+            <span id="track-branch-name">فرع وسط البلد - التحرير</span>
+          </div>
+        </div>
+
+        <!-- Status Pill -->
+        <div id="track-status-pill" class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl text-sm font-black status-preparing">
+          <span class="w-3 h-3 rounded-full bg-indigo-600 animate-ping"></span>
+          <span id="track-status-text">قيد التجهيز في المطبخ 🍳</span>
+        </div>
+      </div>
+
+      <!-- Live Interactive Stepper -->
+      <div class="space-y-4">
+        <h4 class="text-xs font-black text-stone-400 uppercase tracking-wider">مراحل إعداد وتوصيل طلبك:</h4>
+        
+        <div class="grid grid-cols-4 gap-2 text-center text-xs font-bold relative">
+          <!-- Progress bar track -->
+          <div class="absolute top-5 right-6 left-6 h-1.5 bg-stone-200 -z-0 rounded-full">
+            <div id="stepper-progress-fill" class="h-full bg-gradient-to-r from-red-800 via-amber-500 to-green-600 rounded-full transition-all duration-700" style="width: 50%;"></div>
+          </div>
+
+          <!-- Step 1 -->
+          <div class="flex flex-col items-center gap-2 relative z-10" id="step-node-1">
+            <div class="w-10 h-10 rounded-full bg-red-800 text-white flex items-center justify-center font-bold text-sm shadow-md">✓</div>
+            <span class="text-zinc-900">تم الاستلام</span>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="flex flex-col items-center gap-2 relative z-10" id="step-node-2">
+            <div class="w-10 h-10 rounded-full bg-amber-500 text-stone-950 flex items-center justify-center font-bold text-sm shadow-md ring-4 ring-amber-200">2</div>
+            <span class="text-amber-800 font-extrabold">في المطبخ</span>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="flex flex-col items-center gap-2 relative z-10" id="step-node-3">
+            <div class="w-10 h-10 rounded-full bg-stone-200 text-stone-600 flex items-center justify-center font-bold text-sm">3</div>
+            <span class="text-stone-400">مع الطيار</span>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="flex flex-col items-center gap-2 relative z-10" id="step-node-4">
+            <div class="w-10 h-10 rounded-full bg-stone-200 text-stone-600 flex items-center justify-center font-bold text-sm">4</div>
+            <span class="text-stone-400">تم التسليم</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ETA / Driver Card -->
+      <div id="track-driver-box" class="bg-gradient-to-br from-amber-50 to-orange-50 p-5 rounded-2xl border border-amber-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-amber-200 flex items-center justify-center text-3xl shadow-sm">
+            🛵
+          </div>
+          <div>
+            <div class="text-xs text-amber-800 font-bold">كابتن التوصيل المسؤول:</div>
+            <h4 id="pilot-name" class="text-base font-black text-zinc-900">كابتن إبراهيم حسن</h4>
+            <div class="text-xs text-stone-600 mt-0.5">
+              <span id="pilot-vehicle">سكوتر هوندا أحمر</span> • <span class="text-amber-700 font-bold">★ 4.9</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+          <div class="text-center bg-white px-4 py-2 rounded-xl border border-amber-200 flex-1 sm:flex-initial">
+            <div class="text-[10px] text-stone-400 font-bold">الوصول المتوقع</div>
+            <div id="pilot-eta" class="text-lg font-black text-red-900">~15 دقيقة</div>
+          </div>
+          <a id="pilot-call-btn" href="tel:01123456789" class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-3 rounded-xl transition flex items-center gap-1 shadow">
+            <span>اتصال 📞</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Order Items Breakdown -->
+      <div class="space-y-3 pt-2">
+        <h4 class="text-xs font-black text-stone-700 uppercase tracking-wider">تفاصيل أصناف الطلب:</h4>
+        <div id="track-items-list" class="space-y-2 bg-stone-50 p-4 rounded-2xl border border-stone-200 text-xs">
+          <!-- Injected via JS -->
+        </div>
+        
+        <div class="flex justify-between items-center bg-amber-50 p-4 rounded-2xl border border-amber-200">
+          <span class="font-bold text-zinc-800 text-sm">المبلغ الإجمالي للطلب:</span>
+          <span id="track-total-price" class="font-black text-red-900 text-xl">0.00 ج.م</span>
+        </div>
+      </div>
+
+      <!-- Simulator Controls (For Testing Real-Time Progression) -->
+      <div class="pt-4 border-t border-stone-200 bg-stone-50 p-4 rounded-2xl space-y-2">
+        <div class="text-xs font-bold text-stone-600">🛠️ محاكاة تحديث الحالة لحظياً (للتجربة والتقييم):</div>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="simulateStatus('received')" class="text-xs bg-white hover:bg-stone-200 border px-3 py-1.5 rounded-lg font-bold">1. استلام</button>
+          <button onclick="simulateStatus('preparing')" class="text-xs bg-white hover:bg-stone-200 border px-3 py-1.5 rounded-lg font-bold">2. تحضير المطبخ</button>
+          <button onclick="simulateStatus('delivering')" class="text-xs bg-white hover:bg-stone-200 border px-3 py-1.5 rounded-lg font-bold">3. خروج مع الطيار</button>
+          <button onclick="simulateStatus('delivered')" class="text-xs bg-green-700 text-white px-3 py-1.5 rounded-lg font-bold">4. تم التسليم 🎉</button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="./js/data.js"></script>
+  <script src="./js/audio.js"></script>
+  <script src="./js/receipt.js"></script>
+  <script src="./js/store.js"></script>
+  <script src="./js/main.js"></script>
+
+  <script>
+    let activeTrackingOrder = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const orderIdParam = urlParams.get("orderId");
+
+      if (orderIdParam) {
+        document.getElementById("track-order-input").value = orderIdParam;
+        loadOrderToTrack(orderIdParam);
+      } else {
+        // Load most recent order by default
+        const orders = window.zaeemStore.getOrders();
+        if (orders && orders.length > 0) {
+          loadOrderToTrack(orders[0].id);
+        }
+      }
+
+      // Listen for updates in storage
+      window.zaeemStore.subscribe((key) => {
+        if (key === "zaeem_orders" && activeTrackingOrder) {
+          loadOrderToTrack(activeTrackingOrder.id);
+        }
+      });
+    });
+
+    function searchAndTrackOrder() {
+      const input = document.getElementById("track-order-input");
+      if (!input) return;
+      const id = input.value.trim();
+      if (!id) {
+        showToast("يرجى إدخال رقم الطلب", "warning");
+        return;
+      }
+      loadOrderToTrack(id);
+    }
+
+    function loadOrderToTrack(orderId) {
+      const cleanId = orderId.replace("#", "").trim();
+      const order = window.zaeemStore.getOrderById(cleanId);
+
+      if (!order) {
+        showToast(`لم نتمكن من العثور على الطلب #${cleanId}`, "error");
+        return;
+      }
+
+      activeTrackingOrder = order;
+
+      // Populate Meta
+      document.getElementById("track-id").textContent = "#" + order.id;
+      document.getElementById("track-branch-name").textContent = order.branchName || "الفرع الرئيسي";
+      document.getElementById("track-date").textContent = new Date(order.createdAt).toLocaleTimeString("ar-EG", { hour: '2-digit', minute: '2-digit' });
+      document.getElementById("track-type-badge").textContent = order.fulfillmentType === "delivery" ? "🛵 توصيل منزلي" : "🏪 استلام من الفرع";
+
+      // Stepper & Status
+      updateStepperUI(order.orderStatus);
+
+      // Total Price
+      document.getElementById("track-total-price").textContent = order.total.toFixed(2) + " ج.م";
+
+      // Items list
+      const itemsList = document.getElementById("track-items-list");
+      if (itemsList) {
+        itemsList.innerHTML = order.items.map(item => `
+          <div class="flex items-center justify-between py-1 border-b border-stone-200/60 last:border-0">
+            <div>
+              <span class="font-bold text-zinc-900">${item.quantity}x ${item.name}</span>
+              <span class="text-stone-500 font-medium">(${item.size})</span>
+              ${item.selectedAddons && item.selectedAddons.length > 0 ? `<div class="text-[10px] text-amber-700">+ ${item.selectedAddons.map(a => a.name).join(', ')}</div>` : ''}
+            </div>
+            <span class="font-extrabold text-zinc-800">${item.itemTotal.toFixed(2)} ج.م</span>
+          </div>
+        `).join("");
+      }
+
+      // Pilot info
+      const driverBox = document.getElementById("track-driver-box");
+      if (order.fulfillmentType === "delivery" && order.pilot) {
+        driverBox.classList.remove("hidden");
+        document.getElementById("pilot-name").textContent = order.pilot.name;
+        document.getElementById("pilot-vehicle").textContent = order.pilot.vehicle;
+        document.getElementById("pilot-eta").textContent = `~${order.pilot.estimatedArrivalMinutes} دقيقة`;
+        document.getElementById("pilot-call-btn").href = `tel:${order.pilot.phone}`;
+      } else {
+        driverBox.classList.add("hidden");
+      }
+    }
+
+    function updateStepperUI(status) {
+      const statusMap = {
+        received: { text: "تم تأكيد واستلام الطلب ✅", class: "status-received", progress: "15%", activeNode: 1 },
+        preparing: { text: "قيد التجهيز في المطبخ 🍳", class: "status-preparing", progress: "50%", activeNode: 2 },
+        delivering: { text: "خرج مع كابتن التوصيل 🛵", class: "status-delivering", progress: "80%", activeNode: 3 },
+        delivered: { text: "تم التسليم بالهناء والشفاء 🎉", class: "status-delivered", progress: "100%", activeNode: 4 },
+        cancelled: { text: "تم إلغاء الطلب ❌", class: "status-cancelled", progress: "0%", activeNode: 0 }
+      };
+
+      const info = statusMap[status] || statusMap.received;
+      
+      const pill = document.getElementById("track-status-pill");
+      pill.className = `inline-flex items-center gap-2 px-4 py-2 rounded-2xl text-sm font-black ${info.class}`;
+      document.getElementById("track-status-text").textContent = info.text;
+
+      document.getElementById("stepper-progress-fill").style.width = info.progress;
+
+      // Update Node circles
+      for (let i = 1; i <= 4; i++) {
+        const node = document.getElementById(`step-node-${i}`);
+        if (!node) continue;
+        const circle = node.querySelector("div");
+        const label = node.querySelector("span");
+
+        if (i < info.activeNode) {
+          circle.className = "w-10 h-10 rounded-full bg-green-700 text-white flex items-center justify-center font-bold text-sm shadow";
+          circle.textContent = "✓";
+          label.className = "text-green-800 font-bold";
+        } else if (i === info.activeNode) {
+          circle.className = "w-10 h-10 rounded-full bg-amber-500 text-stone-950 flex items-center justify-center font-black text-sm shadow-md ring-4 ring-amber-200 animate-pulse";
+          circle.textContent = i;
+          label.className = "text-amber-800 font-black";
+        } else {
+          circle.className = "w-10 h-10 rounded-full bg-stone-200 text-stone-600 flex items-center justify-center font-bold text-sm";
+          circle.textContent = i;
+          label.className = "text-stone-400";
+        }
+      }
+    }
+
+    function simulateStatus(newStatus) {
+      if (!activeTrackingOrder) return;
+      window.zaeemStore.updateOrderStatus(activeTrackingOrder.id, newStatus);
+      showToast(`تم تغيير حالة الطلب إلى: ${newStatus}`, "info");
+    }
+  </script>
+</body>
+</html>

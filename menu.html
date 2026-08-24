@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>قائمة المنيو | كشري الزعيم</title>
+  <meta name="description" content="تصفح قائمة طعام مطعم كشري الزعيم، أطباق الكشري الأصلي، طواجن بالسمن البلدي، الإضافات والدقات، الحلويات والمشروبات." />
+  <meta name="theme-color" content="#991b1b" />
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            zaeem: {
+              red: '#991b1b',
+              redHover: '#7f1d1d',
+              gold: '#d97706',
+              goldHover: '#b45309',
+              cream: '#fffdf9'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="./css/custom.css" />
+</head>
+<body class="bg-[#fffdf9] text-zinc-900 flex flex-col min-h-screen">
+
+  <!-- Top bar -->
+  <div class="bg-red-950 text-amber-200 text-xs py-2 px-4 border-b border-amber-800/40">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span>🔥 كود خصم 15%: <strong class="text-amber-400">ZAEEM2026</strong></span>
+      </div>
+      <div class="flex items-center gap-4 text-xs">
+        <a href="tel:19888" class="text-white font-bold" dir="ltr">📞 19888</a>
+        <a href="./admin.html" class="text-amber-400 hover:underline">لوحة التحكم</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <a href="./index.html" class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-red-800 to-amber-600 flex items-center justify-center text-white text-2xl shadow-md">
+            👑
+          </div>
+          <div>
+            <span class="text-2xl font-black text-red-900">كشري الزعيم</span>
+            <span class="block text-[10px] font-bold text-amber-700 -mt-1">قائمة المنيو والأسعار</span>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-6 text-sm font-bold text-zinc-700">
+          <a href="./index.html" class="hover:text-red-800 transition">الرئيسية</a>
+          <a href="./menu.html" class="text-red-800 border-b-2 border-red-800 pb-1">قائمة المنيو</a>
+          <a href="./offers.html" class="hover:text-red-800 transition">العروض</a>
+          <a href="./reserve.html" class="hover:text-red-800 transition">حجز طاولة</a>
+          <a href="./track.html" class="hover:text-red-800 transition">تتبع طلبك</a>
+          <a href="./contact.html" class="hover:text-red-800 transition">الفروع</a>
+        </nav>
+
+        <div class="flex items-center gap-3">
+          <button class="open-branch-modal-btn hidden sm:flex items-center gap-1.5 bg-stone-100 hover:bg-amber-50 text-zinc-800 text-xs font-bold px-3 py-2 rounded-xl border border-stone-200 transition">
+            <span class="text-amber-600">📍</span>
+            <span id="current-branch-label" class="truncate max-w-[120px]">فرع وسط البلد</span>
+          </button>
+
+          <button class="open-cart-btn relative bg-red-800 hover:bg-red-900 text-white px-4 py-2 rounded-xl font-bold text-sm shadow-md transition flex items-center gap-2">
+            <span>🛒</span>
+            <span class="hidden sm:inline">السلة</span>
+            <span class="cart-count-badge transform scale-0 transition-transform w-5 h-5 rounded-full bg-amber-400 text-red-950 text-xs font-black flex items-center justify-center">0</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    
+    <!-- Hero Banner for Menu -->
+    <div class="bg-gradient-to-r from-red-900 via-stone-900 to-amber-900 rounded-3xl p-6 sm:p-8 text-white relative overflow-hidden shadow-lg">
+      <div class="relative z-10 max-w-2xl space-y-2">
+        <span class="inline-block bg-amber-500 text-stone-950 font-black text-xs px-3 py-1 rounded-full">طازج وساخن على مدار الساعة ♨️</span>
+        <h1 class="text-3xl sm:text-4xl font-black text-white">منيو كشري الزعيم</h1>
+        <p class="text-stone-300 text-xs sm:text-sm font-medium">
+          اختر وجبتك المفضلة، حدد الحجم والإضافات اللي بتحبها، وسجل طلبك ليصلك في أسرع وقت.
+        </p>
+      </div>
+    </div>
+
+    <!-- Search and Filters Bar -->
+    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-stone-200 shadow-sm space-y-4">
+      
+      <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
+        <!-- Search Input -->
+        <div class="relative w-full sm:w-96">
+          <span class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-stone-400 pointer-events-none">🔍</span>
+          <input type="text" id="menu-search-input" placeholder="ابحث عن طبق، طاجن، صوص، أو مشروب..." class="w-full pr-10 pl-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-amber-500 focus:bg-white outline-none transition" />
+        </div>
+
+        <!-- Filter Tags -->
+        <div class="flex flex-wrap gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0" id="dietary-filters">
+          <button onclick="setDietaryFilter('all')" class="dietary-filter-btn active text-xs font-bold px-3 py-2 rounded-xl bg-amber-500 text-stone-950 transition">الكل</button>
+          <button onclick="setDietaryFilter('الأكثر')" class="dietary-filter-btn text-xs font-bold px-3 py-2 rounded-xl bg-stone-100 text-stone-700 hover:bg-stone-200 transition">الأكثر طلباً 🔥</button>
+          <button onclick="setDietaryFilter('نباتي')" class="dietary-filter-btn text-xs font-bold px-3 py-2 rounded-xl bg-stone-100 text-stone-700 hover:bg-stone-200 transition">نباتي 🌱</button>
+          <button onclick="setDietaryFilter('حار')" class="dietary-filter-btn text-xs font-bold px-3 py-2 rounded-xl bg-stone-100 text-stone-700 hover:bg-stone-200 transition">حار 🌶️</button>
+          <button onclick="setDietaryFilter('توفير')" class="dietary-filter-btn text-xs font-bold px-3 py-2 rounded-xl bg-stone-100 text-stone-700 hover:bg-stone-200 transition">عروض التوفير 👑</button>
+        </div>
+      </div>
+
+      <!-- Category Tabs Slider -->
+      <div class="flex items-center gap-2 overflow-x-auto pt-2 border-t border-stone-100 pb-1" id="category-tabs-container">
+        <!-- Injected via JS -->
+      </div>
+
+    </div>
+
+    <!-- Dishes Grid -->
+    <div id="menu-dishes-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- Injected via JS -->
+    </div>
+
+    <!-- No Results State -->
+    <div id="no-dishes-found" class="hidden text-center py-16 space-y-3">
+      <div class="text-5xl">🔍</div>
+      <h3 class="font-extrabold text-zinc-800 text-lg">لم يتم العثور على أطباق مطابقة للبحث</h3>
+      <p class="text-stone-500 text-xs">جرب البحث بكلمة مختلفة أو اختر تصنيفاً آخر.</p>
+      <button onclick="resetMenuFilters()" class="bg-amber-600 text-white text-xs font-bold px-4 py-2 rounded-xl">إعادة ضبط الفلاتر</button>
+    </div>
+
+  </main>
+
+  <!-- Mobile Floating Cart Checkout Bar -->
+  <div id="mobile-cart-bar" class="fixed bottom-0 left-0 right-0 bg-stone-900 text-white p-3 z-30 shadow-2xl border-t border-amber-500/50 sm:hidden transition-transform">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <span class="w-9 h-9 rounded-xl bg-amber-500 text-stone-950 flex items-center justify-center font-black text-sm cart-count-badge">0</span>
+        <div>
+          <div class="text-[11px] text-stone-400">إجمالي السلة</div>
+          <div id="mobile-cart-total" class="text-sm font-black text-amber-400">0.00 ج.م</div>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <button onclick="openMiniCart()" class="bg-stone-800 text-white text-xs font-bold px-3 py-2 rounded-xl border border-stone-700">عرض</button>
+        <a href="./checkout.html" class="bg-gradient-to-r from-red-700 to-amber-600 text-white text-xs font-black px-4 py-2 rounded-xl shadow">إتمام الطلب ←</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared Modals and Drawers included from main components -->
+  <div id="cart-backdrop" class="fixed inset-0 bg-black/60 z-50 hidden transition-opacity opacity-0 drawer-backdrop"></div>
+  
+  <div id="cart-drawer" class="fixed inset-y-0 left-0 max-w-full w-full sm:w-96 bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col drawer-content">
+    <div class="p-4 bg-red-900 text-white flex items-center justify-between border-b border-red-800">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">🛒</span>
+        <h3 class="font-extrabold text-base">سلة طلبات الزعيم</h3>
+      </div>
+      <button id="close-cart-btn" class="text-amber-300 hover:text-white p-1 font-bold text-lg">✕</button>
+    </div>
+    <div id="cart-empty-state" class="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-3">
+      <div class="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center text-4xl text-amber-600">🍲</div>
+      <h4 class="font-bold text-zinc-800 text-lg">سلتك لسه فاضية!</h4>
+      <p class="text-stone-500 text-xs max-w-xs">اختر طبق الكشري أو الطاجن المفضل ليك وأضفه للسلة لنبدأ تحضيره فوراً.</p>
+    </div>
+    <div id="cart-items-list" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+    <div id="cart-drawer-footer" class="p-4 bg-stone-50 border-t border-stone-200 space-y-3 hidden">
+      <div class="flex items-center justify-between text-sm">
+        <span class="font-bold text-stone-600">المجموع الفرعي:</span>
+        <span id="cart-drawer-total" class="font-black text-red-900 text-lg">0.00 ج.م</span>
+      </div>
+      <a href="./checkout.html" class="block bg-gradient-to-r from-red-800 to-red-700 text-white text-center font-black py-3 rounded-xl shadow-md">متابعة إتمام الطلب ←</a>
+    </div>
+  </div>
+
+  <!-- Branch Modal -->
+  <div id="branch-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-stone-200 space-y-4 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between border-b border-stone-100 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📍</span>
+          <h3 class="font-black text-zinc-900 text-lg">اختر الفرع الأقرب إليك</h3>
+        </div>
+        <button id="close-branch-modal" class="text-stone-400 hover:text-zinc-800 font-bold">✕</button>
+      </div>
+      <div id="branch-modal-list" class="space-y-2 overflow-y-auto flex-1 pr-1"></div>
+    </div>
+  </div>
+
+  <!-- Dish Customizer Modal -->
+  <div id="dish-customizer-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-amber-200 space-y-5 my-auto max-h-[90vh] flex flex-col">
+      <div class="flex justify-between items-start">
+        <div class="flex items-center gap-3">
+          <img id="customizer-dish-image" src="" alt="" class="w-16 h-16 rounded-2xl object-cover shadow-sm border border-amber-200" />
+          <div>
+            <h3 id="customizer-dish-name" class="font-black text-zinc-900 text-lg"></h3>
+            <p id="customizer-dish-desc" class="text-xs text-stone-500 line-clamp-2 mt-0.5"></p>
+          </div>
+        </div>
+        <button id="close-customizer-modal" class="text-stone-400 hover:text-zinc-800 font-bold p-1">✕</button>
+      </div>
+      <div class="overflow-y-auto flex-1 space-y-4 pr-1">
+        <div>
+          <h4 class="text-xs font-black text-stone-800 uppercase tracking-wider mb-2">1. اختر الحجم:</h4>
+          <div id="customizer-sizes-container" class="space-y-1.5"></div>
+        </div>
+        <div>
+          <h4 class="text-xs font-black text-stone-800 uppercase tracking-wider mb-2">2. إضافات الزعيم الخاصة:</h4>
+          <div id="customizer-addons-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+        </div>
+        <div>
+          <h4 class="text-xs font-black text-stone-800 uppercase tracking-wider mb-1">3. ملاحظات للشيف:</h4>
+          <input type="text" id="customizer-special-notes" placeholder="بدون بصل، شطة خارجية..." class="w-full text-xs p-3 rounded-xl border border-stone-200 outline-none focus:ring-2 focus:ring-amber-500" />
+        </div>
+      </div>
+      <div class="pt-3 border-t border-stone-100 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3 bg-stone-100 px-3 py-1.5 rounded-xl border border-stone-200">
+          <button onclick="changeCustomizerQty(1)" class="text-red-700 font-black text-base w-7 h-7 flex items-center justify-center">+</button>
+          <span id="customizer-qty" class="font-extrabold text-zinc-900 text-sm">1</span>
+          <button onclick="changeCustomizerQty(-1)" class="text-stone-600 font-black text-base w-7 h-7 flex items-center justify-center">-</button>
+        </div>
+        <button onclick="submitDishToCart()" class="flex-1 bg-gradient-to-r from-red-800 to-red-700 text-white font-extrabold py-3 px-4 rounded-xl shadow-md flex items-center justify-between text-sm">
+          <span>إضافة للسلة 🍲</span>
+          <span id="customizer-total-price" class="bg-red-950/60 px-2.5 py-0.5 rounded-lg text-amber-300 font-black">0.00 ج.م</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./js/data.js"></script>
+  <script src="./js/audio.js"></script>
+  <script src="./js/receipt.js"></script>
+  <script src="./js/store.js"></script>
+  <script src="./js/main.js"></script>
+
+  <script>
+    let activeCategoryId = "all";
+    let activeDietaryFilter = "all";
+    let searchQuery = "";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderCategoryTabs();
+      renderMenuDishes();
+
+      const searchInput = document.getElementById("menu-search-input");
+      if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+          searchQuery = e.target.value.trim().toLowerCase();
+          renderMenuDishes();
+        });
+      }
+
+      // Check URL search params for category
+      const urlParams = new URLSearchParams(window.location.search);
+      const catParam = urlParams.get("category");
+      if (catParam) {
+        setCategory(catParam);
+      }
+    });
+
+    function renderCategoryTabs() {
+      const container = document.getElementById("category-tabs-container");
+      if (!container || !window.zaeemStore) return;
+
+      const categories = window.zaeemStore.getCategories();
+      
+      let html = `
+        <button onclick="setCategory('all')" class="category-tab-btn flex-shrink-0 flex items-center gap-1.5 text-xs font-extrabold px-4 py-2.5 rounded-xl transition ${activeCategoryId === 'all' ? 'bg-red-800 text-white shadow-md' : 'bg-stone-100 text-stone-700 hover:bg-stone-200'}">
+          <span>🌟</span>
+          <span>كل الأطباق</span>
+        </button>
+      `;
+
+      categories.forEach(cat => {
+        const isActive = activeCategoryId === cat.id;
+        html += `
+          <button onclick="setCategory('${cat.id}')" class="category-tab-btn flex-shrink-0 flex items-center gap-1.5 text-xs font-extrabold px-4 py-2.5 rounded-xl transition ${isActive ? 'bg-red-800 text-white shadow-md' : 'bg-stone-100 text-stone-700 hover:bg-stone-200'}">
+            <span>${cat.icon}</span>
+            <span>${cat.name}</span>
+          </button>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function setCategory(catId) {
+      activeCategoryId = catId;
+      renderCategoryTabs();
+      renderMenuDishes();
+    }
+
+    function setDietaryFilter(tag) {
+      activeDietaryFilter = tag;
+      const buttons = document.querySelectorAll(".dietary-filter-btn");
+      buttons.forEach(btn => {
+        if (btn.getAttribute("onclick").includes(`'${tag}'`)) {
+          btn.classList.add("bg-amber-500", "text-stone-950");
+          btn.classList.remove("bg-stone-100", "text-stone-700");
+        } else {
+          btn.classList.remove("bg-amber-500", "text-stone-950");
+          btn.classList.add("bg-stone-100", "text-stone-700");
+        }
+      });
+      renderMenuDishes();
+    }
+
+    function resetMenuFilters() {
+      activeCategoryId = "all";
+      activeDietaryFilter = "all";
+      searchQuery = "";
+      const searchInput = document.getElementById("menu-search-input");
+      if (searchInput) searchInput.value = "";
+      renderCategoryTabs();
+      setDietaryFilter("all");
+    }
+
+    function renderMenuDishes() {
+      const grid = document.getElementById("menu-dishes-grid");
+      const emptyState = document.getElementById("no-dishes-found");
+      if (!grid || !window.zaeemStore) return;
+
+      const menu = window.zaeemStore.getMenu();
+
+      const filtered = menu.filter(dish => {
+        // Category filter
+        if (activeCategoryId !== "all" && dish.categoryId !== activeCategoryId) {
+          return false;
+        }
+
+        // Dietary Tag filter
+        if (activeDietaryFilter !== "all") {
+          const tagsStr = (dish.tags || []).join(" ");
+          if (!tagsStr.includes(activeDietaryFilter)) {
+            return false;
+          }
+        }
+
+        // Search query filter
+        if (searchQuery) {
+          const matchName = dish.name.toLowerCase().includes(searchQuery);
+          const matchDesc = dish.desc.toLowerCase().includes(searchQuery);
+          if (!matchName && !matchDesc) return false;
+        }
+
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = "";
+        if (emptyState) emptyState.classList.remove("hidden");
+        return;
+      }
+
+      if (emptyState) emptyState.classList.add("hidden");
+
+      grid.innerHTML = filtered.map(dish => {
+        const tagHtml = dish.tags && dish.tags[0] 
+          ? `<span class="bg-amber-500 text-stone-950 font-black text-[10px] px-2 py-0.5 rounded-md shadow">${dish.tags[0]}</span>`
+          : '';
+
+        const spicyHtml = dish.spicyLevel > 0 
+          ? `<span class="bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded" title="درجة الحرارة">${'🌶️'.repeat(Math.min(3, dish.spicyLevel))}</span>`
+          : '';
+
+        return `
+          <div class="dish-card bg-white rounded-2xl overflow-hidden border border-stone-200 shadow-sm hover:shadow-lg transition flex flex-col justify-between group">
+            
+            <div class="relative h-48 bg-stone-100 overflow-hidden">
+              <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy" />
+              <div class="absolute top-2.5 right-2.5 flex items-center gap-1">
+                ${tagHtml}
+                ${spicyHtml}
+              </div>
+              ${!dish.inStock ? '<div class="absolute inset-0 bg-stone-950/70 backdrop-blur-xs flex items-center justify-center text-amber-300 font-black text-sm">نفذ مؤقتاً من المخزون ⚠️</div>' : ''}
+            </div>
+
+            <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+              <div>
+                <h3 class="font-extrabold text-zinc-900 text-base group-hover:text-red-800 transition leading-snug">${dish.name}</h3>
+                <p class="text-xs text-stone-500 line-clamp-2 mt-1 font-medium">${dish.desc}</p>
+              </div>
+
+              <!-- Dish Footer with Price and Button -->
+              <div class="pt-2 border-t border-stone-100 flex items-center justify-between">
+                <div>
+                  <span class="text-[10px] text-stone-400 block font-bold">السعر</span>
+                  <span class="text-lg font-black text-red-900">${dish.price} <span class="text-xs font-bold">ج.م</span></span>
+                </div>
+
+                <button onclick="openDishCustomizer('${dish.id}')" ${!dish.inStock ? 'disabled' : ''} class="${dish.inStock ? 'bg-gradient-to-r from-red-800 to-amber-600 hover:from-red-900 hover:to-amber-700 text-white' : 'bg-stone-200 text-stone-400 cursor-not-allowed'} text-xs font-black px-4 py-2.5 rounded-xl shadow transition flex items-center gap-1.5">
+                  <span>طلب الصنف</span>
+                  <span>+</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        `;
+      }).join("");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>كشري الزعيم | أصل الكشري المصري الأصيل</title>
+  <meta name="description" content="كشري الزعيم - مطعم كشري مصري أصيل يقدم أشهى أطباق الكشري والطواجن بالفرن والحلويات الشرقية. اطلب أونلاين واستمتع بتوصيل فوري ساخن لباب بيتك." />
+  <meta name="keywords" content="كشري الزعيم, كشري مصري, طواجن مكرونة, دقة, شطة زيت, تقلية, مطعم كشري, توصيل كشري" />
+  <meta property="og:title" content="كشري الزعيم | أصل الكشري المصري الأصيل" />
+  <meta property="og:description" content="كشري بالدقة والشطة والتقلية المقرمشة.. اطلب الآن واستفد بخصم 15% بكود ZAEEM2026" />
+  <meta property="og:type" content="restaurant.restaurant" />
+  <meta name="theme-color" content="#991b1b" />
+  <link rel="manifest" href="./manifest.json" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            zaeem: {
+              red: '#991b1b',
+              redHover: '#7f1d1d',
+              gold: '#d97706',
+              goldHover: '#b45309',
+              brown: '#78350f',
+              cream: '#fffdf9',
+              dark: '#18181b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts & Custom Stylesheet -->
+  <link rel="stylesheet" href="./css/custom.css" />
+</head>
+<body class="bg-[#fffdf9] text-zinc-900 selection:bg-amber-500 selection:text-white flex flex-col min-h-screen">
+
+  <!-- ================= TOP ANNOUNCEMENT BAR ================= -->
+  <div class="bg-gradient-to-r from-red-950 via-red-900 to-amber-900 text-amber-200 text-xs py-2 px-4 border-b border-amber-800/40">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2 font-medium">
+        <span class="inline-block animate-pulse">🔥</span>
+        <span>خصم خاص 15% على جميع الطلبات أونلاين بكود: <strong class="bg-amber-500 text-red-950 px-2 py-0.5 rounded font-black tracking-wider">ZAEEM2026</strong></span>
+      </div>
+      <div class="flex items-center gap-4 text-xs font-semibold">
+        <button id="pwa-install-btn" class="hidden bg-amber-600 hover:bg-amber-500 text-white px-2.5 py-0.5 rounded-full transition flex items-center gap-1">
+          <span>📲 تثبيت التطبيق</span>
+        </button>
+        <div class="flex items-center gap-1 text-white">
+          <span>الخط الساخن:</span>
+          <a href="tel:19888" class="font-extrabold text-amber-400 hover:underline" dir="ltr">19888</a>
+        </div>
+        <a href="./admin.html" class="bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 px-2.5 py-0.5 rounded-md border border-amber-400/40 transition flex items-center gap-1">
+          <span>👑 لوحة التحكم</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= HEADER & NAVBAR ================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200 shadow-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo and Brand -->
+        <a href="./index.html" class="flex items-center gap-3 group">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-red-800 to-amber-600 flex items-center justify-center text-white text-2xl shadow-md group-hover:scale-105 transition transform">
+            👑
+          </div>
+          <div>
+            <span class="text-2xl font-black tracking-tight text-red-900 group-hover:text-amber-700 transition">كشري الزعيم</span>
+            <span class="block text-[11px] font-bold text-amber-700 -mt-1 tracking-wider">أصل الكشري المصري الأصيل</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-6 text-sm font-bold text-zinc-700">
+          <a href="./index.html" class="text-red-800 border-b-2 border-red-800 pb-1">الرئيسية</a>
+          <a href="./menu.html" class="hover:text-red-800 transition">قائمة المنيو</a>
+          <a href="./offers.html" class="hover:text-red-800 transition flex items-center gap-1">
+            <span>العروض</span>
+            <span class="bg-red-600 text-white text-[10px] px-1.5 py-0.2 rounded-full font-extrabold animate-bounce">وفر</span>
+          </a>
+          <a href="./reserve.html" class="hover:text-red-800 transition">حجز طاولة</a>
+          <a href="./track.html" class="hover:text-red-800 transition">تتبع طلبك</a>
+          <a href="./careers.html" class="hover:text-red-800 transition">الوظائف</a>
+          <a href="./contact.html" class="hover:text-red-800 transition">الفروع والتواصل</a>
+        </nav>
+
+        <!-- Header Actions: Branch Picker & Cart Drawer Button -->
+        <div class="flex items-center gap-3">
+          
+          <!-- Branch Selector Button -->
+          <button class="open-branch-modal-btn hidden sm:flex items-center gap-1.5 bg-stone-100 hover:bg-amber-100/80 text-zinc-800 text-xs font-bold px-3 py-2 rounded-xl border border-stone-200 transition">
+            <span class="text-amber-600">📍</span>
+            <span id="current-branch-label" class="truncate max-w-[130px]">فرع وسط البلد</span>
+            <span class="text-stone-400 text-[10px]">▼</span>
+          </button>
+
+          <!-- Interactive Cart Trigger Button -->
+          <button class="open-cart-btn relative bg-gradient-to-r from-red-800 to-red-700 hover:from-red-900 hover:to-red-800 text-white px-4 py-2 rounded-xl font-bold text-sm shadow-md hover:shadow-lg transition flex items-center gap-2">
+            <span>🛒</span>
+            <span class="hidden sm:inline">السلة</span>
+            <span class="cart-count-badge transform scale-0 transition-transform w-5 h-5 rounded-full bg-amber-400 text-red-950 text-xs font-black flex items-center justify-center">
+              0
+            </span>
+          </button>
+
+          <!-- Mobile Menu Toggle Button -->
+          <button id="mobile-menu-btn" class="md:hidden p-2 rounded-xl text-zinc-700 hover:bg-stone-100 transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-stone-200 bg-white px-4 pt-3 pb-6 space-y-3 shadow-xl">
+      <div class="flex justify-between items-center pb-2 border-b border-stone-100">
+        <button class="open-branch-modal-btn flex items-center gap-1 text-xs font-bold text-amber-800 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200">
+          <span>📍</span>
+          <span>تغيير الفرع الحالي</span>
+        </button>
+        <button id="close-mobile-menu" class="text-stone-400 hover:text-zinc-800 font-bold text-lg p-1">✕</button>
+      </div>
+      <div class="grid grid-cols-2 gap-2 text-sm font-bold text-zinc-800 pt-1">
+        <a href="./index.html" class="p-2.5 rounded-lg bg-red-50 text-red-800">🏠 الرئيسية</a>
+        <a href="./menu.html" class="p-2.5 rounded-lg hover:bg-stone-50">🍲 قائمة المنيو</a>
+        <a href="./offers.html" class="p-2.5 rounded-lg hover:bg-stone-50">🎁 العروض والتوفير</a>
+        <a href="./reserve.html" class="p-2.5 rounded-lg hover:bg-stone-50">🪑 حجز طاولة</a>
+        <a href="./track.html" class="p-2.5 rounded-lg hover:bg-stone-50">🛵 تتبع الطلب</a>
+        <a href="./contact.html" class="p-2.5 rounded-lg hover:bg-stone-50">📞 اتصل بنا</a>
+        <a href="./careers.html" class="p-2.5 rounded-lg hover:bg-stone-50">💼 الوظائف</a>
+        <a href="./admin.html" class="p-2.5 rounded-lg bg-amber-500/10 text-amber-900">👑 لوحة التحكم</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO SECTION ================= -->
+  <section class="relative bg-gradient-to-b from-stone-900 via-stone-900 to-red-950 text-white overflow-hidden pt-12 pb-20 md:py-24">
+    <!-- Background Texture and Accents -->
+    <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#f59e0b_1px,transparent_1px)] [background-size:16px_16px]"></div>
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-red-600/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-amber-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Hero Text and CTAs -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-right">
+          
+          <div class="inline-flex items-center gap-2 bg-amber-500/20 text-amber-300 border border-amber-500/30 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-inner">
+            <span>✨</span>
+            <span>سر الصنعة المصرية منذ 1995</span>
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-white">
+            كشري على أصوله.. <br />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-200">
+              بالدقة والشطة والتقلية المقرمشة
+            </span>
+          </h1>
+
+          <p class="text-stone-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-medium leading-relaxed">
+            استمتع بألذ طبق كشري مصري بلدي مسبك بالصلصة التراثية وحمص الشام والعدس أبو جبة الفاخر، مع طواجن الفرن الساخنة بالسمن البلدي.
+          </p>
+
+          <!-- Primary Action Buttons -->
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4">
+            <a href="./menu.html" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-stone-950 font-black px-8 py-4 rounded-2xl shadow-gold hover:shadow-xl hover:scale-105 transition transform flex items-center gap-2 text-base">
+              <span>اطلب أونلاين الآن</span>
+              <span class="text-xl">🛵</span>
+            </a>
+            <a href="#featured-section" class="bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-4 rounded-2xl border border-white/20 backdrop-blur-sm transition flex items-center gap-2 text-base">
+              <span>تصفح أشهر الأطباق</span>
+              <span>↓</span>
+            </a>
+          </div>
+
+          <!-- Live Trust Badges & Counters -->
+          <div class="grid grid-cols-3 gap-4 pt-6 border-t border-stone-800 max-w-lg mx-auto lg:mx-0">
+            <div class="text-center lg:text-right">
+              <div class="text-2xl sm:text-3xl font-black text-amber-400">+50,000</div>
+              <div class="text-xs text-stone-400 font-semibold">عميل سعيد شهرياً</div>
+            </div>
+            <div class="text-center lg:text-right">
+              <div class="text-2xl sm:text-3xl font-black text-amber-400">8 فروع</div>
+              <div class="text-xs text-stone-400 font-semibold">القاهرة والإسكندرية</div>
+            </div>
+            <div class="text-center lg:text-right">
+              <div class="text-2xl sm:text-3xl font-black text-amber-400">4.9 ⭐</div>
+              <div class="text-xs text-stone-400 font-semibold">تقييم الزبائن</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Hero Graphic with 3D Dish Presentation -->
+        <div class="lg:col-span-5 flex justify-center relative">
+          <div class="relative w-72 sm:w-96 h-72 sm:h-96">
+            <!-- Glow background circle -->
+            <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-amber-500/30 via-red-600/30 to-amber-300/20 blur-2xl animate-pulse"></div>
+            
+            <!-- Hero Dish Card -->
+            <div class="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl border-4 border-amber-500/40 transform hover:rotate-1 transition duration-500 group">
+              <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80" alt="طبق كشري الزعيم" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
+              
+              <!-- Floating Steam overlay simulation -->
+              <div class="absolute bottom-4 right-4 left-4 bg-black/75 backdrop-blur-md p-4 rounded-2xl border border-amber-500/40 text-white">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="text-xs text-amber-400 font-bold">الطبق الأكثر طلباً 🔥</div>
+                    <div class="font-extrabold text-base">ميجا الزعيم بالتقلية والصلصة</div>
+                  </div>
+                  <span class="text-xl font-black text-amber-400 bg-amber-950/80 px-2.5 py-1 rounded-xl border border-amber-500/40">45 ج.م</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating Badge Left -->
+            <div class="absolute -top-4 -right-4 bg-red-700 text-white font-bold text-xs px-3.5 py-2 rounded-2xl shadow-lg border border-red-500 animate-float">
+              🔥 شطة زيت نار أصلية
+            </div>
+
+            <!-- Floating Badge Right -->
+            <div class="absolute -bottom-4 -left-4 bg-amber-500 text-zinc-950 font-black text-xs px-3.5 py-2 rounded-2xl shadow-lg border border-amber-400 animate-float" style="animation-delay: 1.5s;">
+              🧅 تقلية ذهبية مقرمشة 100%
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT US / STORY SECTION ================= -->
+  <section class="py-16 md:py-24 bg-[#fcf9f2] border-b border-stone-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Story Graphic collage -->
+        <div class="lg:col-span-5 grid grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80" alt="كشري مصري" class="rounded-2xl shadow-md object-cover h-48 w-full border-2 border-amber-200" />
+            <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80" alt="طاجن مكرونة" class="rounded-2xl shadow-md object-cover h-64 w-full border-2 border-amber-200" />
+          </div>
+          <div class="space-y-4 pt-6">
+            <img src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=600&q=80" alt="تقلية بصل مقرمش" class="rounded-2xl shadow-md object-cover h-64 w-full border-2 border-amber-200" />
+            <img src="https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=600&q=80" alt="أرز بلبن فرن" class="rounded-2xl shadow-md object-cover h-48 w-full border-2 border-amber-200" />
+          </div>
+        </div>
+
+        <!-- Story Text -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-block text-red-800 font-extrabold text-sm bg-red-100/80 px-3 py-1 rounded-lg border border-red-200">
+            👑 حكاية الزعيم
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-black text-zinc-900 leading-tight">
+            سر الصنعة المصرية.. <br />
+            <span class="text-red-800">طعم زمان اللي متربين عليه بأعلى جودة ونظافة</span>
+          </h2>
+          <p class="text-stone-700 leading-relaxed font-medium text-base">
+            بدأت رحلتنا بحلم بسيط في قلب القاهرة: تقديم طبق الكشري المصري بهيبته وأصالته كما يجب أن يكون. نحن نختار أجود أنواع العدس البلدي أبو جبة، ونطهو صوص الطماطم المتسبك على نار هادئة لساعات بتوليفة بهارات سرية يتوارثها كبار الطهاة.
+          </p>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <div class="p-4 rounded-xl bg-white border border-stone-200 shadow-sm flex items-start gap-3">
+              <span class="text-2xl bg-amber-100 p-2 rounded-lg text-amber-800">🧅</span>
+              <div>
+                <h4 class="font-bold text-zinc-900 text-sm">تقلية ذهبية بدون دهون زائدة</h4>
+                <p class="text-xs text-stone-600 mt-0.5">مقرمشة حتى آخر معلقة بتقنية التصفية الدقيقة.</p>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-white border border-stone-200 shadow-sm flex items-start gap-3">
+              <span class="text-2xl bg-red-100 p-2 rounded-lg text-red-800">🌶️</span>
+              <div>
+                <h4 class="font-bold text-zinc-900 text-sm">دقة بلدي وشطة زيت مخصوص</h4>
+                <p class="text-xs text-stone-600 mt-0.5">ثوم طازج، خل بيتي، وشطة سوداني حامية تفوق الخيال.</p>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-white border border-stone-200 shadow-sm flex items-start gap-3">
+              <span class="text-2xl bg-green-100 p-2 rounded-lg text-green-800">🥘</span>
+              <div>
+                <h4 class="font-bold text-zinc-900 text-sm">طواجن فخار وسمن بلدي</h4>
+                <p class="text-xs text-stone-600 mt-0.5">لحم مفروم وسجق وفراخ طازجة تخرج من الفرن مباشرة.</p>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-white border border-stone-200 shadow-sm flex items-start gap-3">
+              <span class="text-2xl bg-blue-100 p-2 rounded-lg text-blue-800">⚡</span>
+              <div>
+                <h4 class="font-bold text-zinc-900 text-sm">توصيل صاروخي ساخن</h4>
+                <p class="text-xs text-stone-600 mt-0.5">أسطول طيارين وتغليف حراري يحافظ على حرارة الوجبة.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4">
+            <a href="./menu.html" class="inline-flex items-center gap-2 bg-red-800 hover:bg-red-900 text-white font-bold px-6 py-3 rounded-xl shadow-md transition">
+              <span>استكشف قائمة الطعام كاملة</span>
+              <span>←</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURED DISHES SECTION ================= -->
+  <section id="featured-section" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+      <div class="inline-block text-amber-800 font-extrabold text-sm bg-amber-100 px-3 py-1 rounded-lg">
+        👑 اختيارات الزعيم
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-black text-zinc-900">أشهر أطباقنا وأكثرها طلباً</h2>
+      <p class="text-stone-600 font-medium">أطباق كشري وطواجن وحلويات يفضلها آلاف الزبائن يومياً.. اطلبها بلمسة واحدة</p>
+    </div>
+
+    <!-- Featured Grid (Dynamic Loaded from JS) -->
+    <div id="featured-dishes-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Injected via JavaScript -->
+    </div>
+
+    <div class="text-center mt-10">
+      <a href="./menu.html" class="inline-flex items-center gap-2 bg-stone-900 hover:bg-amber-600 text-white font-black px-8 py-3.5 rounded-xl shadow-md transition transform hover:scale-105">
+        <span>عرض كل أصناف المنيو (25+ صنف)</span>
+        <span>🍲</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ================= SPECIAL OFFER & COMBO BANNER ================= -->
+  <section class="py-12 bg-gradient-to-r from-red-900 via-stone-900 to-amber-950 text-white relative overflow-hidden border-y-4 border-amber-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <div class="lg:col-span-8 space-y-4 text-center lg:text-right">
+          <div class="inline-flex items-center gap-2 bg-amber-500 text-zinc-950 font-black px-3 py-1 rounded-md text-xs">
+            <span>🎁 عرض اليوم الخاص</span>
+          </div>
+          <h3 class="text-2xl sm:text-4xl font-black text-white">
+            بوكس العيلة الزعيم العملاق (4 - 5 أفراد)
+          </h3>
+          <p class="text-stone-300 text-sm sm:text-base max-w-2xl font-medium">
+            فويل كشري عائلي ضخم + 2 طاجن لحمة وفراخ بالفرن + 4 أرز بلبن فرن + 1 لتر بيبسي عائلي + باقة الدقات والصلصة والشطة.
+          </p>
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+            <div class="flex items-baseline gap-2">
+              <span class="text-3xl font-black text-amber-400">360 ج.م</span>
+              <span class="text-lg line-through text-stone-400">440 ج.م</span>
+              <span class="bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded">وفر 80 ج.م</span>
+            </div>
+            <button onclick="window.openDishCustomizer('combo-family-mega')" class="bg-amber-500 hover:bg-amber-400 text-stone-950 font-black px-6 py-2.5 rounded-xl shadow-lg transition">
+              اطلب البوكس الآن 🛒
+            </button>
+          </div>
+        </div>
+
+        <div class="lg:col-span-4 flex justify-center">
+          <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20 text-center w-full max-w-xs">
+            <div class="text-xs font-bold text-amber-300 mb-2">ينتهي هذا العرض بعد:</div>
+            <div class="flex justify-center gap-3 text-white font-black" dir="ltr">
+              <div class="bg-stone-950/80 px-3 py-2 rounded-xl border border-amber-500/40">
+                <span class="text-2xl text-amber-400">04</span>
+                <span class="block text-[10px] text-stone-400">ساعة</span>
+              </div>
+              <div class="bg-stone-950/80 px-3 py-2 rounded-xl border border-amber-500/40">
+                <span class="text-2xl text-amber-400">28</span>
+                <span class="block text-[10px] text-stone-400">دقيقة</span>
+              </div>
+              <div class="bg-stone-950/80 px-3 py-2 rounded-xl border border-amber-500/40">
+                <span class="text-2xl text-amber-400">45</span>
+                <span class="block text-[10px] text-stone-400">ثانية</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BRANCHES & MAP SECTION ================= -->
+  <section class="py-16 md:py-24 bg-[#fffdf9] border-b border-stone-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div>
+          <div class="text-red-800 font-extrabold text-sm bg-red-100 inline-block px-3 py-1 rounded-lg">📍 فروعنا في خدمتك</div>
+          <h2 class="text-3xl sm:text-4xl font-black text-zinc-900 mt-2">زورنا في أقرب فرع أو اطلب دليفري</h2>
+        </div>
+        <a href="./contact.html" class="text-sm font-bold text-amber-700 hover:text-amber-800 flex items-center gap-1">
+          <span>عرض جميع الفروع على الخريطة التفصيلية</span>
+          <span>←</span>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="branches-home-grid">
+        <!-- Injected via JS -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= TESTIMONIALS SECTION ================= -->
+  <section class="py-16 md:py-24 bg-[#fcf9f2]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+        <div class="inline-block text-amber-800 font-extrabold text-sm bg-amber-100 px-3 py-1 rounded-lg">
+          ⭐ آراء الزعماء
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black text-zinc-900">ماذا يقول عشاق كشري الزعيم؟</h2>
+        <p class="text-stone-600 font-medium">شهادات حقيقية من عملائنا بعد تجربة ألذ أطباق الكشري والطواجن</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="testimonials-grid">
+        <!-- Injected via JS -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= TABLE BOOKING CTA ================= -->
+  <section class="py-16 bg-gradient-to-br from-amber-600 to-red-900 text-white relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-stone-950/90 rounded-3xl p-8 sm:p-12 border-2 border-amber-400/40 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8">
+        <div class="space-y-3 text-center lg:text-right">
+          <span class="text-xs font-black bg-amber-500 text-stone-950 px-3 py-1 rounded-full uppercase tracking-wider">🪑 الصالة والمناسبات</span>
+          <h3 class="text-2xl sm:text-3xl font-black text-white">ناوي على عزومة أو لِمة عائلية؟</h3>
+          <p class="text-stone-300 text-sm sm:text-base max-w-xl">
+            احجز طاولتك مسبقاً في صالاتنا المكيفة وتجنب أوقات الانتظار.. مع تجهيز الأطباق ساخنة فور وصولكم.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a href="./reserve.html" class="bg-amber-500 hover:bg-amber-400 text-stone-950 font-black px-8 py-4 rounded-2xl shadow-gold hover:shadow-xl transition transform hover:scale-105">
+            احجز طاولتك الآن مجاناً 📋
+          </a>
+          <a href="tel:19888" class="bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-4 rounded-2xl border border-white/20 transition flex items-center gap-2">
+            <span>اتصل بالخط الساخن 19888</span>
+            <span>📞</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-stone-950 text-stone-400 pt-16 pb-12 border-t border-stone-800 text-sm mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-stone-800">
+        
+        <!-- Col 1: Brand Info -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-700 to-amber-500 flex items-center justify-center text-white text-xl">
+              👑
+            </div>
+            <div>
+              <span class="text-xl font-black text-white">كشري الزعيم</span>
+              <span class="block text-[10px] text-amber-500 font-bold">أصل الكشري المصري الأصيل</span>
+            </div>
+          </div>
+          <p class="text-xs text-stone-400 leading-relaxed">
+            مطعم مصري رائد في صناعة الكشري والطواجن الشرقية بجودة عالمية، نضمن لك وجبة طازجة مسبكة ومعدة بأفضل المكونات البلدي.
+          </p>
+          <div class="flex items-center gap-3 pt-2">
+            <a href="#" class="w-8 h-8 rounded-lg bg-stone-900 hover:bg-amber-600 text-white flex items-center justify-center transition">📘</a>
+            <a href="#" class="w-8 h-8 rounded-lg bg-stone-900 hover:bg-amber-600 text-white flex items-center justify-center transition">📸</a>
+            <a href="#" class="w-8 h-8 rounded-lg bg-stone-900 hover:bg-amber-600 text-white flex items-center justify-center transition">💬</a>
+            <a href="#" class="w-8 h-8 rounded-lg bg-stone-900 hover:bg-amber-600 text-white flex items-center justify-center transition">🎵</a>
+          </div>
+        </div>
+
+        <!-- Col 2: Quick Links -->
+        <div class="space-y-3">
+          <h4 class="text-white font-black text-base">روابط سريعة</h4>
+          <ul class="space-y-2 text-xs font-semibold">
+            <li><a href="./menu.html" class="hover:text-amber-400 transition">قائمة المنيو والأسعار</a></li>
+            <li><a href="./offers.html" class="hover:text-amber-400 transition">العروض وبوكسات التوفير</a></li>
+            <li><a href="./reserve.html" class="hover:text-amber-400 transition">حجز الطاولات والصالات</a></li>
+            <li><a href="./track.html" class="hover:text-amber-400 transition">تتبع حالة طلبك أونلاين</a></li>
+            <li><a href="./careers.html" class="hover:text-amber-400 transition">انضم لفريق العمل (الوظائف)</a></li>
+            <li><a href="./contact.html" class="hover:text-amber-400 transition">الفروع وأرقام التليفونات</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Branches Summary -->
+        <div class="space-y-3">
+          <h4 class="text-white font-black text-base">الفروع الرئيسية</h4>
+          <ul class="space-y-2 text-xs">
+            <li>📍 <strong>وسط البلد:</strong> 15 شارع طلعت حرب</li>
+            <li>📍 <strong>مدينة نصر:</strong> 42 شارع عباس العقاد</li>
+            <li>📍 <strong>المهندسين:</strong> شارع جامعة الدول العربية</li>
+            <li>📍 <strong>التجمع الخامس:</strong> شارع التسعين الشمالي</li>
+            <li>📍 <strong>الإسكندرية:</strong> محطة الرمل أمام الترام</li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Hotline & Payments -->
+        <div class="space-y-4">
+          <h4 class="text-white font-black text-base">الطلب والدفع</h4>
+          <div class="bg-stone-900 p-4 rounded-xl border border-stone-800">
+            <div class="text-xs text-stone-400">الخط الساخن الموحد 24 ساعة:</div>
+            <a href="tel:19888" class="text-2xl font-black text-amber-400 block mt-1 hover:underline" dir="ltr">19888</a>
+            <div class="text-[11px] text-stone-400 mt-1">واتساب: <span dir="ltr" class="text-amber-300 font-bold">01012345678</span></div>
+          </div>
+          <div>
+            <div class="text-xs text-stone-400 mb-1.5">طرق الدفع المتاحة:</div>
+            <div class="flex flex-wrap gap-2 text-xs font-bold text-stone-300">
+              <span class="bg-stone-900 px-2 py-1 rounded border border-stone-800">💵 كاش عند الاستلام</span>
+              <span class="bg-stone-900 px-2 py-1 rounded border border-stone-800">📱 فودافون كاش</span>
+              <span class="bg-stone-900 px-2 py-1 rounded border border-stone-800">💳 فيزا وماستركارد</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-4">
+        <div>جميع الحقوق محفوظة © 2026 مطعم كشري الزعيم. صنع بكل فخر وأصالة مصرية 🇪🇬</div>
+        <div class="flex gap-4 font-semibold">
+          <a href="./admin.html" class="text-amber-500 hover:underline">دخول لوحة التحكم (Admin)</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MINI CART SLIDE-OVER DRAWER ================= -->
+  <div id="cart-backdrop" class="fixed inset-0 bg-black/60 z-50 hidden transition-opacity opacity-0 drawer-backdrop"></div>
+  
+  <div id="cart-drawer" class="fixed inset-y-0 left-0 max-w-full w-full sm:w-96 bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col drawer-content">
+    
+    <!-- Drawer Header -->
+    <div class="p-4 bg-red-900 text-white flex items-center justify-between border-b border-red-800">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">🛒</span>
+        <h3 class="font-extrabold text-base">سلة طلبات الزعيم</h3>
+      </div>
+      <button id="close-cart-btn" class="text-amber-300 hover:text-white p-1 font-bold text-lg">✕</button>
+    </div>
+
+    <!-- Empty State -->
+    <div id="cart-empty-state" class="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-3">
+      <div class="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center text-4xl text-amber-600">
+        🍲
+      </div>
+      <h4 class="font-bold text-zinc-800 text-lg">سلتك لسه فاضية!</h4>
+      <p class="text-stone-500 text-xs max-w-xs">اختر طبق الكشري أو الطاجن المفضل ليك وأضفه للسلة لنبدأ تحضيره فوراً.</p>
+      <a href="./menu.html" onclick="closeMiniCart()" class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition">
+        تصفح قائمة المنيو الآن
+      </a>
+    </div>
+
+    <!-- Items List -->
+    <div id="cart-items-list" class="flex-1 overflow-y-auto p-4 space-y-3">
+      <!-- Injected via JS -->
+    </div>
+
+    <!-- Drawer Footer -->
+    <div id="cart-drawer-footer" class="p-4 bg-stone-50 border-t border-stone-200 space-y-3 hidden">
+      <div class="flex items-center justify-between text-sm">
+        <span class="font-bold text-stone-600">المجموع الفرعي:</span>
+        <span id="cart-drawer-total" class="font-black text-red-900 text-lg">0.00 ج.م</span>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <a href="./checkout.html" class="col-span-2 bg-gradient-to-r from-red-800 to-red-700 hover:from-red-900 hover:to-red-800 text-white text-center font-black py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2">
+          <span>متابعة إتمام الطلب</span>
+          <span>←</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================= BRANCH SELECTOR MODAL ================= -->
+  <div id="branch-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-stone-200 space-y-4 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between border-b border-stone-100 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📍</span>
+          <h3 class="font-black text-zinc-900 text-lg">اختر الفرع الأقرب إليك</h3>
+        </div>
+        <button id="close-branch-modal" class="text-stone-400 hover:text-zinc-800 font-bold">✕</button>
+      </div>
+      <p class="text-xs text-stone-500 font-medium">سيتم توجيه طلبك للفرع المحدد لضمان سرعة التوصيل واستلام الطلب ساخناً.</p>
+      
+      <div id="branch-modal-list" class="space-y-2 overflow-y-auto flex-1 pr-1">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= DISH CUSTOMIZER MODAL ================= -->
+  <div id="dish-customizer-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-amber-200 space-y-5 my-auto max-h-[90vh] flex flex-col">
+      
+      <div class="flex justify-between items-start">
+        <div class="flex items-center gap-3">
+          <img id="customizer-dish-image" src="" alt="" class="w-16 h-16 rounded-2xl object-cover shadow-sm border border-amber-200" />
+          <div>
+            <h3 id="customizer-dish-name" class="font-black text-zinc-900 text-lg"></h3>
+            <p id="customizer-dish-desc" class="text-xs text-stone-500 line-clamp-2 mt-0.5"></p>
+          </div>
+        </div>
+        <button id="close-customizer-modal" class="text-stone-400 hover:text-zinc-800 font-bold p-1">✕</button>
+      </div>
+
+      <div class="overflow-y-auto flex-1 space-y-4 pr-1">
+        <!-- Sizes Selector -->
+        <div>
+          <h4 class="text-xs font-black text-stone-800 uppercase tracking-wider mb-2">1. اختر الحجم:</h4>
+          <div id="customizer-sizes-container" class="space-y-1.5">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+
+        <!-- Addons Selector -->
+        <div>
+          <h4 class="text-xs font-black text-stone-800 uppercase tracking-wider mb-2">2. إضافات الزعيم الخاصة (اختياري):</h4>
+          <div id="customizer-addons-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+
+        <!-- Special Notes -->
+        <div>
+          <h4 class="text-xs font-black text-stone-800 uppercase tracking-wider mb-1">3. ملاحظات خاصة للشيف:</h4>
+          <input type="text" id="customizer-special-notes" placeholder="مثال: بدون بصل، شطة زيادة منفصلة، صلصة زيادة..." class="w-full text-xs p-3 rounded-xl border border-stone-200 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none" />
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="pt-3 border-t border-stone-100 flex items-center justify-between gap-4">
+        <!-- Quantity Stepper -->
+        <div class="flex items-center gap-3 bg-stone-100 px-3 py-1.5 rounded-xl border border-stone-200">
+          <button onclick="changeCustomizerQty(1)" class="text-red-700 font-black text-base hover:bg-white w-7 h-7 rounded-lg transition flex items-center justify-center">+</button>
+          <span id="customizer-qty" class="font-extrabold text-zinc-900 text-sm">1</span>
+          <button onclick="changeCustomizerQty(-1)" class="text-stone-600 font-black text-base hover:bg-white w-7 h-7 rounded-lg transition flex items-center justify-center">-</button>
+        </div>
+
+        <!-- Add Button with Price -->
+        <button onclick="submitDishToCart()" class="flex-1 bg-gradient-to-r from-red-800 to-red-700 hover:from-red-900 text-white font-extrabold py-3 px-4 rounded-xl shadow-md transition flex items-center justify-between text-sm">
+          <span>إضافة للسلة 🍲</span>
+          <span id="customizer-total-price" class="bg-red-950/60 px-2.5 py-0.5 rounded-lg text-amber-300 font-black">0.00 ج.م</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./js/data.js"></script>
+  <script src="./js/audio.js"></script>
+  <script src="./js/receipt.js"></script>
+  <script src="./js/store.js"></script>
+  <script src="./js/main.js"></script>
+
+  <!-- Homepage Rendering Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderFeaturedDishes();
+      renderHomeBranches();
+      renderHomeTestimonials();
+    });
+
+    function renderFeaturedDishes() {
+      const grid = document.getElementById("featured-dishes-grid");
+      if (!grid || !window.zaeemStore) return;
+
+      const menu = window.zaeemStore.getMenu();
+      const featured = menu.filter(item => item.featured).slice(0, 8);
+
+      grid.innerHTML = featured.map(dish => {
+        const tagBadge = dish.tags && dish.tags[0] 
+          ? `<span class="absolute top-3 right-3 bg-amber-500 text-stone-950 font-black text-[11px] px-2.5 py-0.5 rounded-full shadow-md">${dish.tags[0]}</span>` 
+          : '';
+
+        return `
+          <div class="dish-card bg-white rounded-2xl overflow-hidden border border-stone-200/80 shadow-sm flex flex-col group">
+            <div class="relative h-48 overflow-hidden bg-stone-100">
+              <img src="${dish.image}" alt="${dish.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+              ${tagBadge}
+              ${!dish.inStock ? '<div class="absolute inset-0 bg-black/60 flex items-center justify-center text-white font-bold text-sm">نفذ مؤقتاً ⚠️</div>' : ''}
+            </div>
+            <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+              <div>
+                <h3 class="font-black text-zinc-900 text-base group-hover:text-red-800 transition">${dish.name}</h3>
+                <p class="text-xs text-stone-500 line-clamp-2 mt-1 font-medium">${dish.desc}</p>
+              </div>
+              <div class="flex items-center justify-between pt-2 border-t border-stone-100">
+                <div>
+                  <span class="text-[10px] text-stone-400 block font-semibold">يبدأ من</span>
+                  <span class="text-lg font-black text-red-800">${dish.price} <span class="text-xs font-bold">ج.م</span></span>
+                </div>
+                <button onclick="openDishCustomizer('${dish.id}')" class="bg-amber-100 hover:bg-amber-500 text-amber-900 hover:text-stone-950 text-xs font-extrabold px-3.5 py-2 rounded-xl transition flex items-center gap-1 shadow-sm">
+                  <span>طلب وتخصيص</span>
+                  <span>+</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderHomeBranches() {
+      const grid = document.getElementById("branches-home-grid");
+      if (!grid || !window.zaeemStore) return;
+
+      const branches = window.zaeemStore.getBranches().slice(0, 3);
+      grid.innerHTML = branches.map(b => `
+        <div class="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm hover:shadow-md transition space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="font-extrabold text-zinc-900 text-base">${b.name}</h4>
+            <span class="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-0.5 rounded-full">مفتوح 🟢</span>
+          </div>
+          <p class="text-xs text-stone-600 font-medium">📍 ${b.address}</p>
+          <div class="text-xs text-stone-500 space-y-1 pt-1">
+            <div>📞 الهاتف: <span dir="ltr" class="font-bold text-amber-800">${b.phone}</span></div>
+            <div>🕒 المواعيد: <strong>${b.hours}</strong></div>
+          </div>
+          <div class="pt-2 flex gap-2">
+            <button onclick="selectBranch('${b.id}')" class="flex-1 bg-stone-100 hover:bg-amber-600 hover:text-white text-zinc-800 text-xs font-bold py-2 rounded-xl transition">
+              تعيين كفرعي المفضل
+            </button>
+            <a href="${b.mapEmbed}" target="_blank" class="bg-amber-50 hover:bg-amber-100 text-amber-900 text-xs font-bold px-3 py-2 rounded-xl transition">
+              الخريطة 🗺️
+            </a>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderHomeTestimonials() {
+      const grid = document.getElementById("testimonials-grid");
+      if (!grid) return;
+
+      grid.innerHTML = INITIAL_TESTIMONIALS.map(t => `
+        <div class="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm space-y-4 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center text-amber-400 text-sm">
+              ${'★'.repeat(t.rating)}
+            </div>
+            <p class="text-xs sm:text-sm text-stone-700 font-medium leading-relaxed">"${t.comment}"</p>
+          </div>
+          <div class="flex items-center gap-3 pt-3 border-t border-stone-100">
+            <img src="${t.avatar}" alt="${t.name}" class="w-10 h-10 rounded-full object-cover border border-amber-300" />
+            <div>
+              <h5 class="font-bold text-xs text-zinc-900">${t.name}</h5>
+              <span class="text-[10px] text-stone-400 font-semibold">${t.role} • ${t.date}</span>
+            </div>
+          </div>
+        </div>
+      `).join("");
+    }
+  </script>
+</body>
+</html>
