@@ -116,9 +116,10 @@ function openMiniCart() {
   const backdrop = document.getElementById("cart-backdrop");
   if (cartDrawer && backdrop) {
     renderMiniCartItems();
-    cartDrawer.classList.remove("translate-x-full");
+    cartDrawer.classList.add("open");
+    backdrop.classList.add("open");
     backdrop.classList.remove("hidden");
-    setTimeout(() => backdrop.classList.add("opacity-50"), 10);
+    document.body.style.overflow = "hidden";
   }
 }
 
@@ -126,9 +127,14 @@ function closeMiniCart() {
   const cartDrawer = document.getElementById("cart-drawer");
   const backdrop = document.getElementById("cart-backdrop");
   if (cartDrawer && backdrop) {
-    cartDrawer.classList.add("translate-x-full");
-    backdrop.classList.remove("opacity-50");
-    setTimeout(() => backdrop.classList.add("hidden"), 300);
+    cartDrawer.classList.remove("open");
+    backdrop.classList.remove("open");
+    document.body.style.overflow = "";
+    setTimeout(() => {
+      if (!backdrop.classList.contains("open")) {
+        backdrop.classList.add("hidden");
+      }
+    }, 300);
   }
 }
 
