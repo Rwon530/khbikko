@@ -141,8 +141,8 @@
   </div>
 
   <!-- Cart Drawer -->
-  <div id="cart-backdrop" class="fixed inset-0 bg-black/60 z-50 hidden transition-opacity opacity-0 drawer-backdrop"></div>
-  <div id="cart-drawer" class="fixed inset-y-0 left-0 max-w-full w-full sm:w-96 bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col drawer-content">
+  <div id="cart-backdrop" class="drawer-backdrop hidden" onclick="closeMiniCart()"></div>
+  <div id="cart-drawer" class="drawer-content flex flex-col">
     <div class="p-4 bg-red-900 text-white flex items-center justify-between border-b border-red-800">
       <h3 class="font-extrabold text-base">🛒 سلة طلبات الزعيم</h3>
       <button id="close-cart-btn" class="text-amber-300 hover:text-white p-1 font-bold text-lg">✕</button>
