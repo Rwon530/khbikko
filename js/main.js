@@ -150,6 +150,21 @@ function updateCartBadge() {
       b.classList.add("scale-0");
     }
   });
+
+  // Mobile Floating Cart Bar update
+  const mobileBar = document.getElementById("mobile-cart-bar");
+  const mobileTotal = document.getElementById("mobile-cart-total");
+  if (mobileBar && window.zaeemStore) {
+    if (count > 0) {
+      mobileBar.classList.remove("translate-y-full", "hidden");
+      if (mobileTotal) {
+        const totals = window.zaeemStore.getCartTotals();
+        mobileTotal.textContent = totals.subtotal.toFixed(2) + " ج.م";
+      }
+    } else {
+      mobileBar.classList.add("translate-y-full");
+    }
+  }
 }
 
 function renderMiniCartItems() {
