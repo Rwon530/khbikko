@@ -12,8 +12,11 @@
 </head>
 <body class="bg-stone-100 text-zinc-900 flex h-screen overflow-hidden">
 
+  <!-- Mobile Backdrop for Sidebar -->
+  <div id="admin-sidebar-backdrop" class="fixed inset-0 bg-black/60 z-30 hidden md:hidden" onclick="toggleAdminSidebar()"></div>
+
   <!-- ================= SIDEBAR NAVIGATION ================= -->
-  <aside id="admin-sidebar" class="w-64 bg-stone-950 text-stone-300 flex flex-col justify-between border-l border-stone-800 transition-all duration-300 z-40">
+  <aside id="admin-sidebar" class="w-64 bg-stone-950 text-stone-300 flex flex-col justify-between border-l border-stone-800 transition-all duration-300 z-40 fixed md:static inset-y-0 right-0 max-md:translate-x-full">
     
     <!-- Sidebar Header -->
     <div>
@@ -123,7 +126,7 @@
     <!-- Top Dashboard Header -->
     <header class="bg-white border-b border-stone-200 px-6 py-4 flex items-center justify-between shadow-xs">
       <div class="flex items-center gap-4">
-        <button id="sidebar-toggle-btn" class="p-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 text-zinc-700">
+        <button id="sidebar-toggle-btn" onclick="toggleAdminSidebar()" class="p-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-zinc-700 font-bold transition">
           ☰
         </button>
         <div>
@@ -573,6 +576,13 @@
         if (key === "zaeem_customers") renderAdminCustomers();
       });
     });
+
+    function toggleAdminSidebar() {
+      const sidebar = document.getElementById("admin-sidebar");
+      const backdrop = document.getElementById("admin-sidebar-backdrop");
+      if (sidebar) sidebar.classList.toggle("max-md:translate-x-full");
+      if (backdrop) backdrop.classList.toggle("hidden");
+    }
 
     function initAdminUser() {
       const user = window.zaeemStore.getCurrentUser();
